@@ -1,6 +1,6 @@
 ## Welcome to my repository for Computational Asthetics
 
-This webiste will be used to document class notes, assignments and projects
+This webiste will be used to document class notes, assignments and projects.
 
 ### Notes
 
