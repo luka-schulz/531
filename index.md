@@ -1,6 +1,6 @@
-## Welcome to my repository for Computational Asthetics
+## Computational Asthetics
 
-This webiste will be used to document class notes, assignments and projects.
+Welcome to my repository for IGME-531, Computational Asthetics. This webiste will be used to document class notes, assignments and projects. Hopefully you find something of interest.
 
 ### Notes
 
