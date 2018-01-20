@@ -20,15 +20,14 @@
       
       requestAnimationFrame( this.draw );
       
-      for( let i = 0; i < gridSize; i++ ) {
-        currentGrid[i] = []
-        nextGrid[i] = [];
-        for( let j = 0; j < gridSize; j++ ) {
-          currentGrid[i][j] = Math.random() > .5 ? 1 : 0;
-          nextGrid[i][j] = 0;
+      for( let y = 0; y < gridSize; y++ ) {
+        currentGrid[y] = []
+        nextGrid[y] = [];
+        for( let x = 0; x < gridSize; x++ ) {
+          currentGrid[y][x] = Math.random() > .5 ? 1 : 0;
+          nextGrid[y][x] = 0;
         }
       }
-      
     },
     
     fullScreenCanvas() {
@@ -60,52 +59,51 @@
     },
     
     draw() {
-      //requestAnimationFrame( this.draw );
+      // requestAnimationFrame( this.draw );
       this.animate();
       
       // draw to your canvas here
-      this.ctx.fillStyle = "#121212";
+      this.ctx.fillStyle = "#FAFAFA";
       this.ctx.fillRect( 0,0, this.canvas.width, this.canvas.height );
       
       let cellWidth = this.canvas.width / gridSize;
       let cellHeight = this.canvas.height / gridSize;
       
-      for( let i = 0; i < gridSize; i++ ) {
-        let row = currentGrid[i];
-        let yPos =  i * cellHeight;
+      for( let y = 0; y < gridSize; y++ ) {
+        let row = currentGrid[y];
+        let yPos =  y * cellHeight;
         
-        for( let j = 0; j < gridSize; j++ ) {
-          let cell = row[j];
+        for( let x = 0; x < gridSize; x++ ) {
+          let cell = row[x];
           
           if( cell === 1 ) {
-            let xPos = j * cellWidth;
+            let xPos = x * cellWidth;
             
-            this.ctx.fillStyle = "#FAFAFA";
+            this.ctx.fillStyle = "#121212";
             this.ctx.fillRect( xPos, yPos, cellWidth, cellHeight );
           }
         }
       }
-      debugger
-      
-//      this.findingNeighbors(currentGrid, 4, 5)
-      
+      this.findNeighbors( currentGrid, 4, 5 )
     },
     
-    findingNeighbors(myArray, i, j) {
-      let cellWidth = this.canvas.width / gridSize;
-      let cellHeight = this.canvas.height / gridSize;
-      this.ctx.fillStyle = "#ff003d";
-      this.ctx.fillRect( i * cellWidth, j * cellWidth, cellWidth, cellHeight );
-      
-      var rowLimit = myArray.length-1;
-      var columnLimit = myArray[0].length-1;
+    findNeighbors( myArray, i, j ) {  
+      var rowLimit = myArray[0].length - 1;
+      var columnLimit = myArray.length - 1;
 
-      for(var x = Math.max(0, i-1); x <= Math.min(i+1, rowLimit); x++) {
-        for(var y = Math.max(0, j-1); y <= Math.min(j+1, columnLimit); y++) {
-          if(x !== i || y !== j) {
-            console.log(x + ", " + y + ": " + myArray[x][y]);
-            this.ctx.fillStyle = "rgba(255, 213, 0, 0.56)";
-            this.ctx.fillRect( x * cellWidth, y * cellWidth, cellWidth, cellHeight );
+      // Math.max() is being used to find the lower bound
+      // and ensure that the search does not go bellow the
+      // lower limit of 0
+      
+      // Math.min() is being used to find the upper bound
+      // and ensure that thh search does not exceed either
+      // the row length or the column length
+      for( let y = Math.max( 0, j-1 ); y <= Math.min( j+1, rowLimit ); y++ ) {
+        for( let x = Math.max( 0, i-1 ); x <= Math.min( i+1, columnLimit ); x++ ) {
+          // if x === i && y ====j this statment will return false
+          // this ignores the cell which we are searching from (the centeral cell)
+          if( x !== i || y !== j ) { 
+            console.log(x + ", " + y + ": " + myArray[y][x]);
           }
         }
       }
