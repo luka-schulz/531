@@ -1,4 +1,4 @@
-### Cellular Automata
+### Quotationalism & 1D Cellular Automata
 ###### Teusday, January 23, 2018
 
 
