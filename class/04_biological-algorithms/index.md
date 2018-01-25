@@ -39,3 +39,16 @@ Seymour Papart believed that if you let kids play around with programming they c
   - He released the book called [Mindstorms](http://worrydream.com/refs/Papert%20-%20Mindstorms%201st%20ed.pdf "Mindstorms")
   - This grew into [constructivism](https://en.wikipedia.org/wiki/Constructivism_(philosophy_of_education "constructivism")
   
+  
+  
+#### in vs of
+```js
+test = { a: 0 }
+'a' in test //true
+'b' in test // false
+```
+`in` used in a for look loops through and returns all the keys within an object
+
+`of` loops through all values (just like a regular for loop)
+
+  
