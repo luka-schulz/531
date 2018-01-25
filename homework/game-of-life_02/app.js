@@ -1,3 +1,13 @@
+// With my custom implementation of Conway's game of life
+// I wanted to allow the user to be able to draw initial
+// states from which the simulation would run.
+//
+// While playing with the rules I found that increasing
+// the overpopulation limit to 5 created a maze like structure
+// that rapidly grew then reached homeostatis. Connecting this
+// with a drawing feature creates interesting growth patterns
+
+
 !function() {
   "use strict"
   
@@ -7,7 +17,6 @@
   const cellCount = 40;
   
   let toggle = false;
-  let mouse = {};
   let dragging = false;
   
   // [numNeighbors, state]
@@ -46,22 +55,10 @@
       Cell.ctx = this.ctx;
       // set the cell size
       Cell.size = this.canvas.width / cellCount;
+      Cell.image = document.getElementById( "image" );
+      console.log( Cell.image)
       
-      for( let y = 0; y < cellCount; y++ ) {
-        currentGrid[y] = []
-        nextGrid[y] = [];
-        
-        for( let x = 0; x < cellCount; x++ ) {
-          let xPos = x * Cell.size;
-          let yPos = y * Cell.size;
-          
-          let cell = Cell.create();
-          cell.init( xPos, yPos );
-          
-          currentGrid[y][x] = cell;
-          nextGrid[y][x] = 0;
-        }
-      };
+      createGrid( cellCount );
       
       requestAnimationFrame( this.draw );
     },
@@ -164,15 +161,37 @@
     }
   };
   
+  function createGrid( cellCount ) {
+    for( let y = 0; y < cellCount; y++ ) {
+      currentGrid[y] = []
+      nextGrid[y] = [];
+
+      for( let x = 0; x < cellCount; x++ ) {
+        let xPos = x * Cell.size;
+        let yPos = y * Cell.size;
+
+        let cell = Cell.create();
+        cell.init( xPos, yPos );
+        cell.draw();
+
+        currentGrid[y][x] = cell;
+        nextGrid[y][x] = 0;
+      }
+    }
+  };
+  
   function checkKeystroke( event ) {
     event = event || window.event; // IE
 
     if( event.keyCode === 32 || event.which === 32 ) {
       toggle = !toggle;
-      console.log( toggle )
+    }
+    else if( event.keyCode === 99 || event.which === 99 ) {
+      createGrid( cellCount );
+      toggle = false;
     }
     else {
-      console.log( "Press 'SPACE' to begin." )
+      console.log( event.keyCode )
     }
   };
   
@@ -181,8 +200,6 @@
   function coordToIndex( x, y ) {
     let i = Math.floor( x / Cell.size );
     let j = Math.floor( y / Cell.size );
-    console.log( x, y )
-    console.log( i, j )
     return [i, j];
   };
   
