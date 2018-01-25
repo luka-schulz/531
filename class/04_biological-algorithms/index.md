@@ -12,6 +12,26 @@ In formal language theory, a grammar, is a set of *production rules* for strings
   - The rules describe how to form strongs from the language's alphabet
   
 [*The Algorithmic Beauty of Plants*](http://algorithmicbotany.org/papers/abop/abop.pdf "The Algorithmic Beauty of Plants")
+
+```js
+const rules = {
+  A: "AB",
+  B: "ABA"
+};
+
+const axiom = "A";
+let output = axiom;
+let numGenerations = 5;
+
+for( let i = 0; i<5; i++ ) {
+  let newOutput = "";
+  
+  for( let char in ouput ) {
+    newOutput += rules[ char ];
+  }
+  output = newOutput;
+};
+```
   
 #### Turtle
 Seymour Papart believed that if you let kids play around with programming they could teach themselves calculus
