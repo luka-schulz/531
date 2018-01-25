@@ -1,18 +1,22 @@
 let Cell = {
   init(x, y) {
-    this.x = 0;
-    this.y = 0;
-    this.state = false;
+    this.x = x;
+    this.y = y;
+    this.state = false; //Math.random() > .5 ? true : false;
   },
 
-  draw() {
-    Particle.ctx.fillStyle = colors.WHITE;
-    Particle.ctx.beginPath();
-    Particle.ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
-    Particle.ctx.fill();
+  draw() { 
+    if( this.state ) {
+      Cell.ctx.fillStyle = "black";
+      Cell.ctx.fillRect( this.x, this.y, this.size, this.size );
+    }
+    else {
+      Cell.ctx.fillStyle = "white";
+      Cell.ctx.fillRect( this.x, this.y, this.size, this.size );
+    }
   },
 
-  move() {
+  onClick() {
 
   },
 
