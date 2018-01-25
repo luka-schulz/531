@@ -56,7 +56,6 @@
       // set the cell size
       Cell.size = this.canvas.width / cellCount;
       Cell.image = document.getElementById( "image" );
-      console.log( Cell.image)
       
       createGrid( cellCount );
       
@@ -191,7 +190,8 @@
       toggle = false;
     }
     else {
-      console.log( event.keyCode )
+      console.log( "Press 'SPACE' to start" );
+      console.log( "Press 'c' to clear" );
     }
   };
   
