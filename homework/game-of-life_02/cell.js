@@ -16,15 +16,11 @@ let Cell = {
     }
   },
 
-  onClick() {
-
-  },
-
   create() {
     return Object.create( this );
   },
 
   toString() {
-    console.log( `Position: (${this.pos.x}, ${this.pos.y}) | Radius: {this.r}`);
+    console.log( `Position: (${this.x}, ${this.y}) | State: ${this.state}`);
   }
 };
