@@ -26,7 +26,7 @@ let numGenerations = 5;
 for( let i = 0; i<5; i++ ) {
   let newOutput = "";
   
-  for( let char of ouput ) {
+  for( let char of output ) {
     newOutput += rules[ char ];
   }
   output = newOutput;
