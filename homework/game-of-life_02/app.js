@@ -14,7 +14,7 @@
   let currentGrid = [];
   let nextGrid = [];
   
-  const cellCount = 40;
+  const cellCount = 80;
   
   let toggle = false;
   let dragging = false;
