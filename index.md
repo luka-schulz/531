@@ -12,17 +12,23 @@ Welcome to my repository for IGME-531, Computational Asthetics. This webiste wil
 
 04. [Biological Algorithms](https://luka-schulz.github.io/531/class/04_biological-algorithms/ "Biological Algorithms")
 
+05. [The Aura of Art](https://luka-schulz.github.io/531/class/05_aura-of-art/ "The Aura of Art")
+
+06. [Web Audio](https://luka-schulz.github.io/531/class/06_web-audio/ "Web Audio")
+
 
 ### Homework
 
-01. [Simpsons](https://luka-schulz.github.io/531/homework/simpsons-meaning-of-life/ "Simpsons")
+01. [Simpsons](https://luka-schulz.github.io/531/homework/01_simpsons-meaning-of-life/ "Simpsons")
 
-02. [The Game of Life](https://luka-schulz.github.io/531/homework/the-game-of-life/ "The Game of Life")
+02. [The Game of Life](https://luka-schulz.github.io/531/homework/02_game-of-life/ "The Game of Life")
 
-03. [Drawing Life](https://luka-schulz.github.io/531/homework/game-of-life_02/ "Drawing Life")
+03. [Drawing Life](https://luka-schulz.github.io/531/homework/03_game-of-life/ "Drawing Life")
 
-04. [The Aura of Art](https://luka-schulz.github.io/531/homework/aura/ "The Aura of Art")
+04. [The Aura of Art](https://luka-schulz.github.io/531/homework/04_aura/ "The Aura of Art")
 
-05. [Cantor Set](https://luka-schulz.github.io/531/homework/cantor-set/ "Cantor Set")
+05. [Cantor Set](https://luka-schulz.github.io/531/homework/05_cantor-set/ "Cantor Set")
 
-06. [L-Systems](https://luka-schulz.github.io/531/homework/l-systems/ "L-Systems")
+06. [L-Systems](https://luka-schulz.github.io/531/homework/06_l-system/ "L-Systems")
+
+07. [Koch Dots](https://luka-schulz.github.io/531/homework/07_koch/ "Kotch Dots")
