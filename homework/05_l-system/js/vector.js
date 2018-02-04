@@ -64,6 +64,15 @@ Vector.prototype = {
   angleTo: function(a) {
     return Math.acos(this.dot(a) / (this.length() * a.length()));
   },
+  rotate: function(a) {
+    let nx = (this.x * Math.cos(a)) - (this.y * Math.sin(a));
+    let ny = (this.x * Math.sin(a)) + (this.y * Math.cos(a));
+
+    this.x = nx;
+    this.y = ny;
+
+    return;
+  },
   toArray: function(n) {
     return [this.x, this.y, this.z].slice(0, n || 3);
   },
