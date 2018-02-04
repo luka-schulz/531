@@ -1,23 +1,28 @@
-const Vec2 = Victor
 // pass in canvas context, a starting x and a starting y position
 const Turtle = { 
-  create( canvas, startX, startY ) {
-    const turtle = Object.create( this )
+  
+  // The turtle always starts pen up
+  // heading north
+  create( ctx, startX, startY ) {
+    const turtle = Object.create( this );
+    
     Object.assign( turtle, {
-      canvas,
-      weight:1,
-      color:'red',
-      pos: Vec2( startX, startY ),
-      dir: Vec2( 1,0 ) ,
+      ctx,
+      weight: 1,
+      color:"red",
+      pos: new Vector( startX, startY ),
+      dir: new Vector( 0, -1 ),
       pen: 1,
       posArray: [],
       dirArray: [],
-    })
-    turtle.canvas.moveTo( turtle.pos.x, turtle.pos.y )
-    return turtle
+    });
+
+    turtle.ctx.moveTo( turtle.pos.x, turtle.pos.y );
+    
+    return turtle;
   },
 
-  penUp()   { this.pen = 0 },
+  penUp() { this.pen = 0 },
 
   penDown() { this.pen = 1 },
 
@@ -25,28 +30,36 @@ const Turtle = {
     this.posArray.push( this.pos.clone() )
     this.dirArray.push( this.dir.clone() )
   },
+
   pop() {
     this.pos = this.posArray.pop()
     this.dir = this.dirArray.pop()
-    this.canvas.moveTo( this.pos.x, this.pos.y )
+    this.ctx.moveTo( this.pos.x, this.pos.y )
   },
+
   // THIS IS IN RADIANS!!!
-  rotate( amt ) {
-    this.dir.rotate( amt )
+  rotate( amount ) {
+    let rad = (amount * Math.PI) / 180;
+    this.dir.rotate( rad );
   },
-  move( amt ) {
-    if( this.pen ) this.canvas.beginPath()
-    this.canvas.moveTo( this.pos.x, this.pos.y )
-    this.pos.x += this.dir.x * amt
-    this.pos.y += this.dir.y * amt
+
+  move( amount ) {
+    if( this.pen ) this.ctx.beginPath();
+    
+    this.ctx.moveTo( this.pos.x, this.pos.y );
+    this.pos.x += this.dir.x * amount;
+    this.pos.y += this.dir.y * amount;
+    
     if( this.pen ) {
-      this.canvas.lineTo( this.pos.x, this.pos.y )
-      this.canvas.lineWidth = this.weight
-      this.canvas.stroke()
-      this.canvas.closePath()
-    }else{
-      this.moveTo( this.pos.x, this.pos.y )
+      this.ctx.lineTo( this.pos.x, this.pos.y );
+      this.ctx.lineWidth = this.weight;
+      this.ctx.strokeStyle = this.color;
+      this.ctx.stroke();
+      this.ctx.closePath();
     }
-  }
-}
-module.exports = Turtle
+    else{
+      this.moveTo( this.pos.x, this.pos.y );
+    }
+  },
+  
+};
