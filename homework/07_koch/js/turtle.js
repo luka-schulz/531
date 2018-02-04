@@ -8,8 +8,8 @@ const Turtle = {
     
     Object.assign( turtle, {
       ctx,
-      weight: 1,
-      color:"red",
+      weight: 2,
+      color:"white",
       pos: new Vector( startX, startY ),
       dir: new Vector( 0, -1 ),
       pen: 1,
@@ -42,23 +42,28 @@ const Turtle = {
     let rad = (amount * Math.PI) / 180;
     this.dir.rotate( rad );
   },
+  
+  changeColor( color ) {
+    this.color =  color;
+  },
 
   move( amount ) {
     if( this.pen ) this.ctx.beginPath();
     
-    this.ctx.moveTo( this.pos.x, this.pos.y );
+    //this.ctx.moveTo( this.pos.x, this.pos.y );
     this.pos.x += this.dir.x * amount;
     this.pos.y += this.dir.y * amount;
     
     if( this.pen ) {
-      this.ctx.lineTo( this.pos.x, this.pos.y );
+      //this.ctx.lineTo( this.pos.x, this.pos.y );
+      this.ctx.arc( this.pos.x, this.pos.y, 5, 0, Math.PI *2 );
       this.ctx.lineWidth = this.weight;
-      this.ctx.strokeStyle = this.color;
-      this.ctx.stroke();
+      this.ctx.fillStyle = this.color;
+      this.ctx.fill();
       this.ctx.closePath();
     }
     else{
-      this.moveTo( this.pos.x, this.pos.y );
+      this.ctx.moveTo( this.pos.x, this.pos.y );
     }
   },
   

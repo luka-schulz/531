@@ -3,14 +3,13 @@
 !function() {
   
   const rules = {
-    X: "F[+X][-X]FX",
-    F: "FF"
+    F: "FF-F+F-F-FfF",
   }
   
-  const axiom = "X";
-  const numGenerations = 7;
-  const deg = 30;
-  let length = 3;
+  const axiom = "F-F-F-F";
+  const numGenerations = 3;
+  const deg = 90;
+  let length = 20;
   
   const app = {
     canvas: null,
@@ -23,7 +22,8 @@
       this.draw = this.drawSystem.bind( this );
       this.setCanvas();
       
-      let myTurtle = Turtle.create( this.ctx, this.canvas.width / 2, this.canvas.height );
+      // not sure how to center drawing :()
+      let myTurtle = Turtle.create( this.ctx, this.canvas.width / 2 - (75), this.canvas.height / 2 - (175) );
       
       const commands = this.generateCommands();
       
@@ -59,20 +59,20 @@
       for( let char of commands ) {
         if( char === "F" ) {
           turtle.move( length );
+          turtle.changeColor( "blue" );
+        }
+        else if( char === "f" ) {
+          turtle.penUp();
+          turtle.move( length );
+          turtle.penDown();
         }
         else if( char === "+" ) {
+          turtle.changeColor( "blue" );
           turtle.rotate( deg );
         }
         else if( char === "-" ) {
+          turtle.changeColor( "white" );
           turtle.rotate( -1 * deg );
-        }
-        else if( char === "[" ) {
-          // length = length * 1;
-          turtle.push();
-        }
-        else if( char === "]" ) {
-          // length = length / 1;
-          turtle.pop();
         }
         else {
           continue;
