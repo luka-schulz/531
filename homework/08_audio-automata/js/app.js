@@ -5,7 +5,7 @@
   let grid = [];
   let currentColumn = [];
   
-  const cellCount = 8;
+  const cellCount = 20;
   let generation = 0;
 
   // itterate 0 -> 255 convert to binary
