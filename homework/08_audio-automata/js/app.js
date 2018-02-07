@@ -3,7 +3,6 @@
 !function() {
 
   let grid = [];
-  let currentColumn = [];
   
   const cellCount = 20;
   let generation = 0;
@@ -18,6 +17,12 @@
     ctx: null,
     audioCtx: null,
 
+    /* Init gets the canvas and creates both a drawing
+     * and audio context. The Cell prototype is passed
+     * both the audio and drawing context.
+     *
+     * A cell size is also assigned based on the cellCount
+    */
     init() {
       this.canvas = document.getElementsByTagName( "canvas" )[0];
       this.ctx = this.canvas.getContext( "2d" );
@@ -26,22 +31,20 @@
       
       this.audioCtx = new AudioContext();
 
+      
       // handle mouse events
-//      this.canvas.onmousedown = doMouseDown;
-//      this.canvas.onmousemove = doMouseMove;
-//      this.canvas.onmouseup = doMouseUp;
-
+      // this.canvas.onmousedown = doMouseDown;
+      // this.canvas.onmousemove = doMouseMove;
+      // this.canvas.onmouseup = doMouseUp;
       // window.onresize = this.fullScreenCanvas.bind( this );
-
       // document.onkeypress = checkKeystroke;
 
-      // set the context for the Cell prototype
+
       Cell.ctx = this.ctx;
-      // set the cell size
       Cell.size = this.width / cellCount;
-      // set the audio context for the Cell prototype
       Cell.audioCtx = this.audioCtx;
 
+      // initialize the grid
       initGrid( cellCount );
 
       requestAnimationFrame( this.draw );
@@ -52,7 +55,10 @@
       this.canvas.height = this.height  =  600; // Math.ceil( window.innerHeight / 2 );
     },
 
-    // update your simulation here
+    /* Animate should push each column to the right. The
+     * first column is being transformed based on a given
+     * cellular automata rule.
+    */
     animate() {
       for( let y = 0; y < generation; y++ ) {
         grid[y+1] = grid[y];
@@ -70,11 +76,12 @@
             let rState = row[x+1].state;
 
             grid[y][x].state = this.cellEvolve( lState, cState, rState );
-
           }
         }
       }
       
+      // never let the generation get larger than
+      // the size of the grid
       if( generation < cellCount) {
         generation++;
       }
@@ -83,6 +90,9 @@
       }
     },
 
+    /* Draw loops through each column and updates the cell
+     * based on it's current state.
+    */
     draw() {
       requestAnimationFrame( this.draw );
       
@@ -98,13 +108,13 @@
           for( let x = 0; x < row.length; x++ ) {
             let cell = row[x];
             
-            cell.state = Math.random() > .5 ? 1 : 0,
             cell.draw();
           }
         }
       }
     },
     
+    /* Evolution is based on the provided rule set. */
     cellEvolve( a, b, c ) {
       if( a === 1 && b === 1 && c === 1 ) return gameRules[0];
       if( a === 1 && b === 1 && c === 0 ) return gameRules[1];
@@ -118,6 +128,10 @@
     },
   };
 
+  /* initGrid takes a cellCount and creates a 2D Array of that
+   * size. The first column is provideda random state. All other
+   * cells start off as false (off).
+  */
   function initGrid( cellCount ) {
     for( let i = 0; i < cellCount; i++ ) {
       grid[i] = []; 
@@ -127,6 +141,11 @@
         let y = i * Cell.size;
 
         let cell = Cell.create( x, y );
+        
+        if( i === 0 ) {
+          cell.state = Math.random() > .5 ? 1 : 0;
+        }
+          
         cell.draw();
 
         grid[i][j] = cell;

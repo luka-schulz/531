@@ -21,6 +21,8 @@ const Cell = {
       this.ctx.fillStyle = "black";
       this.ctx.fillRect( this.y, this.x, this.size, this.size );
       
+      // only the first column of cells should
+      // ever be played
       if( this.y === 0 ) {
         let i = this.x / this.size;
         let freq = Tonal.freq( this.scale[i] );
@@ -59,7 +61,7 @@ const Cell = {
   },
 
   toString() {
-    console.log( `Position: ${this.i} | State: ${this.state}`);
+    console.log( `Position: ${this.x}, ${this.y} | State: ${this.state}`);
   }
 };
 
