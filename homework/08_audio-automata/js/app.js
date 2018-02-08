@@ -10,14 +10,16 @@
 
   // itterate 0 -> 255 convert to binary
   // store values into an array
-  //const gameRules = [0, 1, 1, 0, 1, 0, 0, 1];
-  const gameRules = [0, 0, 0, 1, 1, 1, 1, 0];
+  const gameRules = [1, 0, 1, 0, 1, 0, 0, 1];
+  //const gameRules = [0, 0, 0, 1, 1, 1, 1, 0];
+  //const gameRules = [1, 1, 1, 1, 0, 1, 0, 1];
 
   const app = {
     canvas: null,
     ctx: null,
     audioCtx: null,
     count: 0,
+    speed: 20,
 
     /* Init gets the canvas and creates both a drawing
      * and audio context. The Cell prototype is passed
@@ -62,37 +64,48 @@
      * cellular automata rule.
     */
     animate() {
-      //debugger;
-      for( let y = generation; y => 0; y-- ) {
+      let automataCt = 0;
+      
+     // debugger;
+      for( let y = generation; y >= 0; y-- ) {
         // this will technically be the column
         // when it is drawn
         let row = grid[y];
         
         for( let x = 1; x < cellCount - 1; x++ ) {
-          if( generation > 0 ) {
-            grid[y][x].state = grid[y-1][x].state;
+          if( generation === 0 ) {
+            break;
           }
-          console.log('here')
-          if( y === 0 && generation > 0 ) {
+          else if( y === 0 ) {
             // check the next column when evoloving the
             // first column
             let lState = grid[y+1][x-1].state;
             let cState = grid[y+1][x].state;
             let rState = grid[y+1][x+1].state;
 
-            grid[y][x].state = this.cellEvolve( lState, cState, rState );
-            console.log(grid[y][x].state)
+            let evolution = this.cellEvolve( lState, cState, rState )
+            grid[y][x].state = evolution[0];
+            grid[y][x].color = evolution[1];
+            
+            automataCt += grid[y][x].state;
+          }
+          else {
+            grid[y][x].state = grid[y-1][x].state;
+            grid[y][x].color = grid[y-1][x].color;
           }
         }
       }
       
+      // USE THIS TO ADJUST PLAYBACK SPEED
+      this.speed = automataCt + 19;
+      
       // never let the generation get larger than
       // the size of the grid
-      if( generation < cellCount) {
+      if( generation < cellCount - 1 ) {
         generation++;
       }
       else {
-        generation = 1;
+        generation = cellCount - 1;
       }
     },
 
@@ -102,8 +115,9 @@
     draw() {
       requestAnimationFrame( this.draw );
       
-      if( this.count++ % 20 === 0 ) { // will be replaced by the variable toggle
+      if( this.count++ % this.speed === 0 ) { // will be replaced by the variable toggle
         this.animate();
+        
         
         // this.ctx.fillStyle = "white";
         // this.ctx.fillRect( 0,0, this.canvas.width, this.canvas.height );
@@ -122,14 +136,14 @@
     
     /* Evolution is based on the provided rule set. */
     cellEvolve( a, b, c ) {
-      if( a === 1 && b === 1 && c === 1 ) return gameRules[0];
-      if( a === 1 && b === 1 && c === 0 ) return gameRules[1];
-      if( a === 1 && b === 0 && c === 1 ) return gameRules[2];
-      if( a === 1 && b === 0 && c === 0 ) return gameRules[3];
-      if( a === 0 && b === 1 && c === 1 ) return gameRules[4];
-      if( a === 0 && b === 1 && c === 0 ) return gameRules[5];
-      if( a === 0 && b === 0 && c === 1 ) return gameRules[6];
-      if( a === 0 && b === 0 && c === 0 ) return gameRules[7];
+      if( a == 1 && b == 1 && c == 1 ) return [gameRules[0], "#ff003d"];
+      if( a == 1 && b == 1 && c == 0 ) return [gameRules[1], "#ffd500"];
+      if( a == 1 && b == 0 && c == 1 ) return [gameRules[2], "#0097ff"];
+      if( a == 1 && b == 0 && c == 0 ) return [gameRules[3], "#00ff6c"];
+      if( a == 0 && b == 1 && c == 1 ) return [gameRules[4], "#863dea"];
+      if( a == 0 && b == 1 && c == 0 ) return [gameRules[5], "#121212"];
+      if( a == 0 && b == 0 && c == 1 ) return [gameRules[6], "#00ffe2"];
+      if( a == 0 && b == 0 && c == 0 ) return [gameRules[7], "#ffffff"];
 
       return false;
     },

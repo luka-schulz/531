@@ -1,11 +1,12 @@
 const Cell = {
-  scale: Tonal.Scale.notes( "c4", "major" ).concat(["C5"]),
+  scale: Tonal.Scale.notes( "c4", "locrian" ).concat(["C5"]),
   
   create( x, y ) {
     const cell = Object.create( this );
 
     Object.assign( cell, {
-      state: false,
+      color: "black",
+      state: 0,
       x: x,
       y: y,
       
@@ -18,7 +19,7 @@ const Cell = {
   // the x and y coordinates are swapped
   draw() { 
     if( this.state ) {
-      this.ctx.fillStyle = "black";
+      this.ctx.fillStyle = this.color;
       this.ctx.fillRect( this.y, this.x, this.size, this.size );
       
       // only the first column of cells should
@@ -27,7 +28,7 @@ const Cell = {
         let i = this.x / this.size;
         let freq = Tonal.freq( this.scale[i] );
         // console.log( this.scale[i], this.x );
-        // this.playNote( freq, .5, .001, .5 ); // freq, 1, .001 .15 
+        this.playNote( freq, .5, .001, .1 ); // freq, 1, .001 .15 
       }
     }
     else {
