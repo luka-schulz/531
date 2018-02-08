@@ -7,9 +7,9 @@
   
   const cellCount = 15;
   let generation = 0;
+  let allRules = [];
+  let ruleIndex = 169;
 
-  // itterate 0 -> 255 convert to binary
-  // store values into an array
   const gameRules = [1, 0, 1, 0, 1, 0, 0, 1];
   //const gameRules = [0, 0, 0, 1, 1, 1, 1, 0];
   //const gameRules = [1, 1, 1, 1, 0, 1, 0, 1];
@@ -41,7 +41,7 @@
       // this.canvas.onmousemove = doMouseMove;
       // this.canvas.onmouseup = doMouseUp;
       // window.onresize = this.fullScreenCanvas.bind( this );
-      // document.onkeypress = checkKeystroke;
+      //document.onkeypress = checkKeystroke;
 
 
       Cell.ctx = this.ctx;
@@ -50,6 +50,7 @@
 
       // initialize the grid
       initGrid( cellCount );
+      initRules();
 
       requestAnimationFrame( this.draw );
     },
@@ -173,6 +174,37 @@
       }
     }
   };
+  
+  function initRules() {  
+    for( let i = 0; i < 256; i++ ) {
+      let rule = []
+      let bin = ( "00000000" + (i).toString(2) ).slice(-8);
+      
+      
+      for( let char of bin ) {
+        rule.push( char );
+      }
+      
+      allRules.push( rule );
+    }
+  };
+  
+//  function checkKeystroke( event ) {
+//    event = event || window.event; // IE
+//  
+//    if( event.keyCode === 102 || event.which === 102 ) {
+//      app.ruleIndex--;
+//      app.gameRules = app.allRules[app.ruleIndex];
+//      console.log("here");
+//    }
+//    else if( event.keyCode === 39 || event.which === 39 ) {
+//      app.ruleIndex++
+//      app.gameRules = app.allRules[ruleIndex];
+//    }
+//    else {
+//      console.log( "Press the arrow keys to adjust rules" );
+//    }
+//  };
   
   window.onload = app.init.bind( app );
 
