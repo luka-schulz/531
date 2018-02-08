@@ -26,7 +26,8 @@ const Cell = {
       if( this.y === 0 ) {
         let i = this.x / this.size;
         let freq = Tonal.freq( this.scale[i] );
-        this.playNote( freq, .5, .001, .5 ); // freq, 1, .001 .15 
+        // console.log( this.scale[i], this.x );
+        // this.playNote( freq, .5, .001, .5 ); // freq, 1, .001 .15 
       }
     }
     else {

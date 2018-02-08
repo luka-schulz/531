@@ -3,8 +3,9 @@
 !function() {
 
   let grid = [];
+  let currentColumn = [];
   
-  const cellCount = 20;
+  const cellCount = 15;
   let generation = 0;
 
   // itterate 0 -> 255 convert to binary
@@ -16,6 +17,7 @@
     canvas: null,
     ctx: null,
     audioCtx: null,
+    count: 0,
 
     /* Init gets the canvas and creates both a drawing
      * and audio context. The Cell prototype is passed
@@ -60,22 +62,26 @@
      * cellular automata rule.
     */
     animate() {
-      for( let y = 0; y < generation; y++ ) {
-        grid[y+1] = grid[y];
-        
+      //debugger;
+      for( let y = generation; y => 0; y-- ) {
         // this will technically be the column
         // when it is drawn
-        let row = grid[y+1];
+        let row = grid[y];
         
         for( let x = 1; x < cellCount - 1; x++ ) {
-          if( y === 0 ) {
-            grid[y+1][x].y = generation * Cell.size;
-
-            let cState = row[x].state;
-            let lState = row[x-1].state;
-            let rState = row[x+1].state;
+          if( generation > 0 ) {
+            grid[y][x].state = grid[y-1][x].state;
+          }
+          console.log('here')
+          if( y === 0 && generation > 0 ) {
+            // check the next column when evoloving the
+            // first column
+            let lState = grid[y+1][x-1].state;
+            let cState = grid[y+1][x].state;
+            let rState = grid[y+1][x+1].state;
 
             grid[y][x].state = this.cellEvolve( lState, cState, rState );
+            console.log(grid[y][x].state)
           }
         }
       }
@@ -96,11 +102,11 @@
     draw() {
       requestAnimationFrame( this.draw );
       
-      if( true ) { // will be replaced by the variable toggle
+      if( this.count++ % 20 === 0 ) { // will be replaced by the variable toggle
         this.animate();
         
-        this.ctx.fillStyle = "white";
-        this.ctx.fillRect( 0,0, this.canvas.width, this.canvas.height );
+        // this.ctx.fillStyle = "white";
+        // this.ctx.fillRect( 0,0, this.canvas.width, this.canvas.height );
 
         for( let y = 0; y < generation; y++ ) {
           let row = grid[y];
@@ -124,6 +130,7 @@
       if( a === 0 && b === 1 && c === 0 ) return gameRules[5];
       if( a === 0 && b === 0 && c === 1 ) return gameRules[6];
       if( a === 0 && b === 0 && c === 0 ) return gameRules[7];
+
       return false;
     },
   };
@@ -142,8 +149,8 @@
 
         let cell = Cell.create( x, y );
         
-        if( i === 0 ) {
-          cell.state = Math.random() > .5 ? 1 : 0;
+        if( i === 0 && j === 7 ) {
+          cell.state = 1;
         }
           
         cell.draw();
