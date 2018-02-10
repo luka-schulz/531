@@ -4,7 +4,7 @@
 
   let grid = [];
   let currentColumn = [];
-  
+
   const cellCount = 15;
   let generation = 0;
   let allRules = [];
@@ -32,10 +32,10 @@
       this.ctx = this.canvas.getContext( "2d" );
       this.draw = this.draw.bind( this );
       this.setCanvas()
-      
+
       this.audioCtx = new AudioContext();
 
-      
+
       // handle mouse events
       // this.canvas.onmousedown = doMouseDown;
       // this.canvas.onmousemove = doMouseMove;
@@ -66,13 +66,13 @@
     */
     animate() {
       let automataCt = 0;
-      
-     // debugger;
+
+      // debugger;
       for( let y = generation; y >= 0; y-- ) {
         // this will technically be the column
         // when it is drawn
         let row = grid[y];
-        
+
         for( let x = 1; x < cellCount - 1; x++ ) {
           if( generation === 0 ) {
             break;
@@ -87,7 +87,7 @@
             let evolution = this.cellEvolve( lState, cState, rState )
             grid[y][x].state = evolution[0];
             grid[y][x].color = evolution[1];
-            
+
             automataCt += grid[y][x].state;
           }
           else {
@@ -96,10 +96,10 @@
           }
         }
       }
-      
+
       // USE THIS TO ADJUST PLAYBACK SPEED
       this.speed = automataCt + 19;
-      
+
       // never let the generation get larger than
       // the size of the grid
       if( generation < cellCount - 1 ) {
@@ -115,26 +115,26 @@
     */
     draw() {
       requestAnimationFrame( this.draw );
-      
+
       if( this.count++ % this.speed === 0 ) { // will be replaced by the variable toggle
         this.animate();
-        
-        
+
+
         // this.ctx.fillStyle = "white";
         // this.ctx.fillRect( 0,0, this.canvas.width, this.canvas.height );
 
         for( let y = 0; y < generation; y++ ) {
           let row = grid[y];
-          
+
           for( let x = 0; x < row.length; x++ ) {
             let cell = row[x];
-            
+
             cell.draw();
           }
         }
       }
     },
-    
+
     /* Evolution is based on the provided rule set. */
     cellEvolve( a, b, c ) {
       if( a == 1 && b == 1 && c == 1 ) return [gameRules[0], "#ff003d"];
@@ -157,55 +157,55 @@
   function initGrid( cellCount ) {
     for( let i = 0; i < cellCount; i++ ) {
       grid[i] = []; 
-      
+
       for( let j = 0; j < cellCount; j++ ) {
         let x =  j * Cell.size;
         let y = i * Cell.size;
 
         let cell = Cell.create( x, y );
-        
+
         if( i === 0 && j === 7 ) {
           cell.state = 1;
         }
-          
+
         cell.draw();
 
         grid[i][j] = cell;
       }
     }
   };
-  
+
   function initRules() {  
     for( let i = 0; i < 256; i++ ) {
       let rule = []
       let bin = ( "00000000" + (i).toString(2) ).slice(-8);
-      
-      
+
+
       for( let char of bin ) {
         rule.push( char );
       }
-      
+
       allRules.push( rule );
     }
   };
-  
-//  function checkKeystroke( event ) {
-//    event = event || window.event; // IE
-//  
-//    if( event.keyCode === 102 || event.which === 102 ) {
-//      app.ruleIndex--;
-//      app.gameRules = app.allRules[app.ruleIndex];
-//      console.log("here");
-//    }
-//    else if( event.keyCode === 39 || event.which === 39 ) {
-//      app.ruleIndex++
-//      app.gameRules = app.allRules[ruleIndex];
-//    }
-//    else {
-//      console.log( "Press the arrow keys to adjust rules" );
-//    }
-//  };
-  
+
+  //  function checkKeystroke( event ) {
+  //    event = event || window.event; // IE
+  //  
+  //    if( event.keyCode === 102 || event.which === 102 ) {
+  //      app.ruleIndex--;
+  //      app.gameRules = app.allRules[app.ruleIndex];
+  //      console.log("here");
+  //    }
+  //    else if( event.keyCode === 39 || event.which === 39 ) {
+  //      app.ruleIndex++
+  //      app.gameRules = app.allRules[ruleIndex];
+  //    }
+  //    else {
+  //      console.log( "Press the arrow keys to adjust rules" );
+  //    }
+  //  };
+
   window.onload = app.init.bind( app );
 
 }()
