@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <body></body>
+  <script src="tonal.min.js"></script>
+  
+  <script>
+    window.onload = function() {
+      const scale = Tonal.Scale.notes( "c4", "minor" )
+      
+      const ctx = new AudioContext();
+      
+      const playNote = function( frequency, amp, attack, decay ) {
+        const osc = ctx.createOscillator();
+        osc.frequency.value = frequency;
+        
+        // use osc.type to change between square, sawtooth, triangle
+        // use osc.frequncy.value to change the value from 440
+
+        const gainNode = ctx.createGain();
+        gainNode.gain.setValueAtTime( 0, ctx.currentTime );
+        gainNode.gain.linearRampToValueAtTime( amp, ctx.currentTime + attack );
+        gainNode.gain.linearRampToValueAtTime( 0, ctx.currentTime + attack + decay );
+
+        osc.connect( gainNode );
+        gainNode.connect( ctx.destination );
+
+        osc.start();
+        osc.stop( ctx.currentTime + attack + decay );
+      }
+      
+      
+      window.onclick = evt => {
+        //const freq = 100 + ( evt.clientY / window.innerHeight ) * 1000;
+        const i = Math.floor( evt.clientY / window.innerHeight * scale.length );
+        const freq = Tonal.freq( scale[i] );
+        playNote( freq, evt.clientX / window.innerWidth, .001, .15 );
+      }
+
+//      window.onmousemove = evt => {
+//        gainNode.gain.value = evt.clientX / window.innerWidth;
+//        osc.frequency.vale = 100 + ( evt.clientY / window.innerHeight ) * 1000;
+//        console.log( evt.clientY / window.innerHeight * 1000 );
+//      }
+    
+      
+      
+//      window.onkeydown = evt => {
+//        console.log(evt.keyCode);
+//
+//        if( evt.keyCode == 65 ) {
+//          osc.type = "sine";
+//        }
+//        else if( evt.keyCode == 83 ) {
+//          osc.type = "square";
+//        }
+//        else if( evt.keyCode == 68 ) {
+//          osc.type = "sawtooth";
+//        }
+//      }
+    
+    }
+  </script>
+</html>

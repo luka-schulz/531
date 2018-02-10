@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <body></body>
+  <script src="tonal.min.js"></script>
+  
+  <script>
+    window.onload = function() {
+      const ctx = new AudioContext();
+      
+      // carrier frequncy
+      const osc = ctx.createOscillator();
+      osc.type = "sawtooth";
+      osc.frequency.value = 660;
+      osc.start();
+      
+      // faster the vibrato
+      const mod = ctx.createOscillator();
+      mod.type = "sine";
+      mod.frequency.value =  10;
+      mod.start();
+      
+      // change the amplitude using the gain node
+      // -10 <-> +10 i.e. 210 - 230 hz
+      const gain = ctx.createGain();
+      gain.gain.value = 30;
+      
+      mod.connect( gain );
+      gain.connect( osc.frequency );
+      
+      osc.connect( ctx.destination );
+    }
+  </script>
+</html>
