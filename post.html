@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <title>Spoons and Forks | Luka Schulz</title>
+  <meta name="viewport" content="initial-scale=1" />
+
+
+  <meta property="og:title" content="Spoons and Forks"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Luka Schulz"/>
+  <meta property="og:url" content="http://lukaschulz.com/2017/12/26"/>
+  <meta property="og:description" content="{{ page.content | strip_html | lstrip | truncatewords: 50 }}"/>
+  <meta property="og:image" content=""/>
+
+  <meta name="theme-color" content="#FF2400" />
+
+  <style>
+    /* 1px = 0.05556rem
+       2px = 0.1111rem
+       6px = 0.3333rem
+       10px = 0.5556rem
+       12px = 0.6667rem
+       16px = 0.8889rem
+       20px = 1.111rem
+       24px = 1.333rem
+       32px = 1.778rem
+       40px = 2.222rem
+       80px = 4.444rem
+       240px = 13.33rem
+       650px = 36.11rem */
+    
+    
+    * {
+      position: relative;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html {
+      background-color: #FFF;
+      color: #222222;
+      font: 18px Born, Georgia, Times New Roman, serif;
+      line-height: 1.7;
+      hyphens: none;
+      -webkit-hyphens: none;
+      -ms-hyphens: none;
+      scroll-behavior: smooth;
+      transition: .3s ease-in;
+    }
+    
+    @media (max-width: 666px) {
+      html {
+        font-size: 16px;
+      }
+    }
+    
+    .wrap {
+      margin: 0;
+      margin-left: 13.33rem; /*240px*/
+      max-width: 36.11rem; /*650px;*/
+      transition: .3s ease-in;
+    }
+    
+    @media (max-width: 1200px) {
+      .wrap {
+        margin: 0 15%;
+      }
+    }
+    
+    @media (max-width: 666px) {
+      .wrap {
+        margin-left: 1.111rem;
+        margin-right: 1.111rem;
+      }
+    }
+    
+    .sans {
+      font-family: Kollektif, BlinkMacSystemFont, -apple-system, Helvetica Neue, Helvetica, sans-serif;
+    }
+    
+    h1 {
+      font-size: 1.111rem; /*20px;*/
+      text-transform: uppercase;
+      letter-spacing: 0.05556rem; /*1px*/
+    }
+    
+    h1 ~ p {
+      margin-top: -1.111rem; /*20px;*/
+      margin-bottom: 2.222rem; /*40px;*/
+    }
+    
+    p {
+      margin-bottom: 0.5556rem; /*10px;*/
+    }
+    
+    p + p {
+      text-indent: 1.778rem; /*32px;*/
+    }
+    
+    /* select all elements that are not <p> elements
+    that comes immediately after <p> elements */
+    p + :not(p) {
+      margin-top: 2.222rem; /*40px;*/
+      margin-bottom: 2.222rem; /*40px;*/
+    }
+    
+    .small {
+      color: #ACACAC;
+      font-size: 0.8889rem; /*16px;*/
+    }
+    
+    a {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-skip: ink;
+      -webkit-text-decoration-skip: ink;
+    }
+    
+    .plainlink {
+      text-decoration: none;
+    }
+    
+    a:focus, a:hover {
+      color: #FF2400;
+    }
+    
+    figure, form, table, h1, h2, ol, ul, pre {
+      margin-bottom: 1.111rem; /*20px;*/
+    }
+    
+    figcaption,figcaption :last-child {
+      margin: 0
+    }
+    
+    img {
+      max-width: 100%;
+    }
+    
+    .footnotes:before {
+      padding-top: 0
+    }
+    
+    .footnotes {
+      margin-left: 0.6667rem; /*12px;*/
+    }
+    
+    .footnotes li {
+      transition: color .5s linear 2s;
+    }
+    
+    .footnotes li:target {
+      animation: highlight 1s 0s forwards;
+      -webkit-animation: highlight 1s .5s forwards;
+    }
+    
+    @keyframes highlight {
+      0% { transform: translateX(0px); color: #ACACAC; -webkit-animation-timing-function: ease; }
+      50% { transform: translateX(0.5556rem) /*10px*/; color: #FF2400; -webkit-animation-timing-function: ease; }
+      66% { transform: translateX(0px); color: #ACACAC; -webkit-animation-timing-function: ease-out; }
+      82% { transform: translateX(0.3333rem) /*6px;*/; color: #ACACAC; -webkit-animation-timing-function: ease-in; }
+      92% { transform: translateX(0px); color: #ACACAC; -webkit-animation-timing-function: ease-out; }
+      97% { transform:s translateX(0.1111rem) /*2px*/; color: #ACACAC; -webkit-animation-timing-function: ease-in; }
+      100% { transform: translateX(0px); color: #ACACAC; -webkit-animation-timing-function: cubic-bezier(0, 0, .18, 1); }
+    }
+
+    @-webkit-keyframes highlight {
+      0% { transform: translateX(0px); color: #ACACAC; -webkit-animation-timing-function: ease; }
+      50% { transform: translateX(0.5556rem) /*10px*/; color: #FF2400; -webkit-animation-timing-function: ease; }
+      66% { transform: translateX(0px); color: #ACACAC; -webkit-animation-timing-function: ease-out; }
+      82% { transform: translateX(0.3333rem) /*6px;*/; color: #ACACAC; -webkit-animation-timing-function: ease-in; }
+      92% { transform: translateX(0px); color: #ACACAC; -webkit-animation-timing-function: ease-out; }
+      97% { transform:s translateX(0.1111rem) /*2px*/; color: #ACACAC; -webkit-animation-timing-function: ease-in; }
+      100% { transform: translateX(0px); color: #ACACAC; -webkit-animation-timing-function: cubic-bezier(0, 0, .18, 1); }
+    }
+    
+    sup {
+      top: -0.3333rem; /*6px;*/
+      vertical-align: inherit;
+    }
+    
+    sup a {
+      margin: 0 0.1111rem; /*2px*/
+      text-decoration: none;
+      color: #FF2400;
+    }
+  
+    blockquote {
+      border-left: 0.1111rem solid #FF2400; /*2px*/
+      padding-left: 1.111rem; /*20px;*/
+    }
+
+    blockquote em, blockquote strong {
+      font-style: normal;
+      font-weight: 400;
+    }
+    
+    .hide {
+      clip: rect(0 0 0 0);
+      height: 1px;
+      width: 1px;
+      margin: -1px;
+      padding: 0;
+      border: 0;
+      overflow: hidden;
+      position: absolute
+    }
+    
+    /** Header **/
+    
+    .site__header {
+      display: flex;
+      display: -ms-flexbox;
+      flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+      align-items: center;
+      -ms-flex-align: center;
+      justify-content: space-between;
+      -ms-flex-pack: justify;
+      margin-bottom: 1.111rem; /*20px;*/
+      padding: 1.111rem 0 0;  /*20px */
+    }
+    
+    .site__title {
+      line-height: 1.333rem; /*24px;*/
+      margin-right: 1.111rem; /*20px;*/
+      background: #FF2400;
+      color: #FF2400;
+    }
+    
+    .nav {
+      list-style: none;
+      margin-bottom: 0;
+      padding-left: 0
+    }
+    
+    .nav li {
+      display: inline-block;
+    }
+    
+    .nav li+li {
+      margin-left: 1.778rem; /*32px;*/
+    }
+    
+    .page__header {
+
+    }
+    
+    .page__content:first-letter {
+      color: #FF2400;
+      float: left;
+      font-size: 300%;
+      line-height: 1;
+      padding-right: 8px;
+      padding-top: 0.1111rem; /*2px*/
+    }
+    
+    .mb {
+      margin-bottom: 1.111rem; /*20px;*/
+    }
+    
+    .mbxl {
+      margin-bottom: 4.444rem; /*80px;*/
+    }
+    
+    .phl {
+      padding-left: 1.111rem; /*20px;*/
+        padding-right: 1.111rem; /*20px;*/
+    }
+    
+    .pvl {
+      padding-top: 1.111rem; /*20px;*/
+        padding-bottom: 1.111rem; /*20px;*/
+    }
+  
+  </style>
+
+  <script></script>
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="/images/favicon@2x.png" />
+  <link rel="apple-touch-icon" href="/images/icon.png" />
+  <link rel="mask-icon" sizes="any" href="/images/favicon.svg" color="#FF2400" />
+
+  <body class="phl">
+    <header class="wrap site__header mbxl">
+      <a class="site__title plainlink" href="" title="Highlight the text">Made ya look.</a>
+      
+      <nav class="site__nav">
+        <ul class="nav">
+          <li><a class="plainlink" href="">Blog</a></li>
+          <li><a class="plainlink" href="">About</a></li>
+        </ul>
+      </nav>
+    </header>
+    
+    <main class="wrap site__content page mbxl">
+      
+      <article class="hentry" itemscope itemtype="http://schema.org/Article">
+        <header class="page__header mb">
+          <h1 class="page__title sans" itemprop="name headline">Spoons and Forks</h1>
+          <p class="post__date small"><time itemprop="datePublished" datetime="2017-12-27">Wed. Dec, 27 2017</time></p>
+        </header>
+        <div class="page__content" itemprop="articleBody">
+          <p>What follows is an attempt to empty my mind of the ideas and thoughts that have been coalescing over the past 20 years. In doing so, I hope to bring a level of clarity to my beliefs about creation and the future of design, while also producing a living document that I can share with others.</p>
+          <p>Much of what I believe is driven by a fascination with the creative process and how technology has both helped and hindered humans. This summer, while working for Microsoft, I found myself falling in love at the intersection of bits and atoms. I had come to this crossroad before when applying to the Tangible Media Group as a summer researcher, but it was the possibilities of Augmented Reality (AR) that set my brain afire. By liberating pixels and weaving them into the fabric of reality, I think AR has the possibility of dissolving an ever-growing barrier that has been erected by computers and smartphones, becoming a stepping stone between graphical bits and radical atoms.</p>
+          <p>The Graphical User Interface (GUI) has kept us rapt for almost 50 years, and I think Tea Uglow was right in saying that it is not the interface we are addicted to but rather the stream of data it feeds us1. Just as decreased sugar prices have made it easier to consume more sugar, the barrier to data consumption has exponentially dropped, and we find ourselves designing tools that feed us ever-growing quantities of data. I do not think it was intentional, but the byproduct of this is a society that has been left creatively, emotionally, and intellectually devastated. As a result, it came as a breath of fresh air, when I stumbled upon Matt Jones' blog, Magical Nihilism. It is the home to a decade's worth of curious thoughts and</p>
+          
+          <blockquote><p>“Here is a blockquote, it might not be nothing, but it's probably something.” <em class="small">—&#xfeff;Chinese&nbsp;proverb</em></p></blockquote>
+          
+          <p>The Graphical User Interface (GUI) has kept us rapt for almost 50 years, and I think Tea Uglow was right in saying that it is not the interface we are addicted to but rather the stream of data it feeds us1. Just as decreased sugar prices have made it easier to consume more sugar, the barrier to data<sup id="fnref1"><a href="#fn1">1</a></sup> consumption has exponentially dropped, and we find ourselves designing tools that feed us ever-growing quantities of data. I do not think it was intentional, but the byproduct of this is a society that has been left creatively, emotionally, and intellectually devastated. As a result, it came as a breath of fresh air, when I stumbled upon Matt Jones' blog, Magical Nihilism. It is the home to a decade's worth of curious thoughts and</p>
+          
+          <figure class="small">
+            <a href="../images/everydays.jpg" title="Image Title" target="_blank">
+              <img src="../images/everydays.jpg" style="background: rgb(203, 60, 85);">
+            </a>
+            <figcaption>
+              <p>This is an example of an image caption.</p>
+            </figcaption>
+          </figure>
+          
+          <p>What follows is an attempt to empty my mind of the ideas and thoughts that have been coalescing over the past 20 years. In doing so, I hope to bring a level of clarity to my beliefs about creation and the future of design, while also producing a living document that I can share with others.</p>
+          <p>Much of what I believe is driven by a fascination with the creative process and how technology has both helped and hindered humans. This summer, while working for Microsoft, I found myself falling in love at the intersection of bits and atoms. I had come to this crossroad before when applying to the Tangible Media Group as a summer researcher, but it was the possibilities of Augmented Reality (AR) that set my brain afire. By liberating pixels and weaving them into the fabric of reality, I think AR has the possibility of dissolving an ever-growing barrier that has been erected by computers and smartphones, becoming a stepping stone between graphical bits and radical atoms.</p>
+          <p>The Graphical User Interface (GUI) has kept us rapt for almost 50 years, and I think Tea Uglow was right in saying that it is not the interface we are addicted to but rather the stream of data it feeds us1. Just as decreased sugar prices have made it easier to consume more sugar, the barrier to data consumption has exponentially dropped, and we find ourselves designing tools that feed us ever-growing quantities of data. I do not think it was intentional, but the byproduct of this is a society that has been left creatively, emotionally, and intellectually devastated. As a result, it came as a breath of fresh air, when I stumbled upon Matt Jones' blog, Magical Nihilism. It is the home to a decade's worth of curious thoughts and</p>
+          <div class="footnotes small">
+            <ol>
+              <li id="fn1">
+                <p>Here is a footnote.&ensp;<a class="plainlink" href="#fnref1">↥</a></p>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </article>
+      
+    </main>
+
+    <footer class="wrap site__footer pvl">
+      <p>Content &copy; 2018, Luka Schulz</p>
+    </footer>
+
+  </body>
+
+</html>
