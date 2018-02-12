@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reaction Diffusion</title>
+
+    <style>
+      body { margin:0; padding:0 }
+      canvas { width:100%; height:100% }
+    </style>
+
+  </head>
+
+  <body>
+    <canvas></canvas>
+  </body>
+
+  <script>
+    // Karl Sims RD tutorial: http://www.karlsims.com/rd.html
+    // Video tutorial using p5.js (don't use p5.js!)
+    // https://www.youtube.com/watch?v=BV9ny785UNc
+    
+    // calculating large grids can get expensive very quickly
+    // experiment with different values to see how high you can go
+    const width = 200, 
+          height = 200;
+    
+    let canvas, ctx,
+        grid = [],
+        next = [];
+    
+    let dA = 1,
+        dB = 0.5,
+        feed = 0.055,
+        k = 0.062;
+
+    // setup after canvas is instantiated
+    window.onload = function() {
+      canvas = document.querySelector( "canvas" );
+      ctx = canvas.getContext( "2d" );
+      canvas.width = width;
+      canvas.height = height;
+      
+      for( let y = 0; y < height; y++ ) {
+        grid[y] = [];
+        next[y] = [];
+        for( let x = 0; x < width; x++ ) {
+          grid[y][x] = { a: 1, b: 0 };
+          next[y][x] = { a: 1, b: 0 };
+        }
+      }
+      
+      for( let j = 95; j < 105; j++ ) {
+        for( let i = 95; i < 105; i++ ) {
+          grid[j][i].b = 1;
+        }
+      }
+
+      requestAnimationFrame( draw );
+    }
+
+    const draw = function() {
+      requestAnimationFrame( draw );
+      
+      for( let y = 1; y < height - 1; y++ ) {
+        for( let x = 1; x < width - 1; x++ ) {
+          let A = grid[y][x].a;
+          let B = grid[y][x].b;
+          
+          next[y][x].a = A + ( (dA * laplaceA( x, y )) - ( A * B * B ) + ( feed * (1 - A ) ) );
+          next[y][x].b = B + ( (dB * laplaceB( x, y )) + ( A * B * B ) - ( (k + feed ) * B ) );
+        }
+      }
+      
+      // get a reference to all the pixels stored in our canvas
+      // so that we can write them to the screen all at once instead
+      // of using hundreds of calls to fillRect(), which would be
+      // expensive!
+      let imgData = ctx.getImageData(0, 0, width, height),
+          pixels = imgData.data;
+
+      // ... and then draw
+      for( let x = 0; x < width; x++ ) {
+        for( let y = 0; y < height; y++ ) {
+          let pixelIndex = (y * width * 4 ) + ( x * 4 );
+          
+          var a = next[y][x].a;
+          var b = next[y][x].b;
+          var c = Math.floor((a - b) * 255);
+          
+          pixels[ pixelIndex ]     = c;
+          pixels[ pixelIndex + 1 ] = c;
+          pixels[ pixelIndex + 2 ] = c;
+          pixels[ pixelIndex + 3 ] = 255;
+        }
+      }
+
+      ctx.putImageData( imgData, 0, 0 );
+
+      let swap = grid;
+      grid = next;
+      next = swap;
+    }
+    
+
+    function laplaceA( x, y ) {
+      let sum = 0;
+
+      sum += grid[y][x].a * -1;
+      sum += grid[y][x - 1].a * 0.2;
+      sum += grid[y][x + 1].a * 0.2;
+      sum += grid[y - 1][x].a * 0.2;
+      sum += grid[y + 1][x].a * 0.2;
+      sum += grid[y - 1][x - 1].a * 0.05;
+      sum += grid[y - 1][x + 1].a * 0.05;
+      sum += grid[y + 1][x + 1].a * 0.05;
+      sum += grid[y + 1][x - 1].a * 0.05;
+
+      return sum;
+    }
+
+    function laplaceB( x, y ) {
+      let sum = 0;
+
+      sum += grid[y][x].b * -1;
+      sum += grid[y][x - 1].b * 0.2;
+      sum += grid[y][x + 1].b * 0.2;
+      sum += grid[y - 1][x].b * 0.2;
+      sum += grid[y + 1][x].b * 0.2;
+      sum += grid[y - 1][x - 1].b * 0.05;
+      sum += grid[y - 1][x + 1].b * 0.05;
+      sum += grid[y + 1][x + 1].b * 0.05;
+      sum += grid[y + 1][x - 1].b * 0.05;
+
+      return sum;
+    }
+    
+    
+  </script>
+
+</html>
