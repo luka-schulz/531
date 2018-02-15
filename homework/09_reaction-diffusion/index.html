@@ -22,17 +22,27 @@
     
     // calculating large grids can get expensive very quickly
     // experiment with different values to see how high you can go
-    const width = 200, 
-          height = 200;
+    const width = 400, 
+          height = 400;
     
     let canvas, ctx,
         grid = [],
         next = [];
     
-    let dA = 1,
-        dB = 0.5,
-        feed = 0.055,
-        k = 0.062;
+//    let dA = 1, // 1,
+//        dB = .5, // .5,
+//        feed = .0551, // .055,
+//        k = .061; // 0.062;
+    
+//    let dA = 1, // 1,
+//        dB = .5, // .5,
+//        feed = .0551, // .055,
+//        k = .063; // 0.062;
+    
+    let dA = 1, // 1,
+        dB = .55, // .5,
+        feed = .0549, // .055,
+        k = .061; // 0.062;
 
     // setup after canvas is instantiated
     window.onload = function() {
@@ -50,9 +60,15 @@
         }
       }
       
-      for( let j = 95; j < 105; j++ ) {
-        for( let i = 95; i < 105; i++ ) {
-          grid[j][i].b = 1;
+      let yLow = Math.floor(height / 3)
+      let xLow = Math.floor(width / 2)
+      
+      // Iterate through each cell in the grid.
+      // Assigning '1' to a cell's 'b' value
+      // will initiate the reaction 
+      for( let y = yLow; y < height / 3 + 10; y++ ) {
+        for( let x = xLow; x < width / 3 + 70; x++ ) {
+          grid[y][x].b = .3;
         }
       }
 
@@ -62,11 +78,13 @@
     const draw = function() {
       requestAnimationFrame( draw );
       
+      
       for( let y = 1; y < height - 1; y++ ) {
         for( let x = 1; x < width - 1; x++ ) {
           let A = grid[y][x].a;
           let B = grid[y][x].b;
           
+          // Reaction diffusion equation
           next[y][x].a = A + ( (dA * laplaceA( x, y )) - ( A * B * B ) + ( feed * (1 - A ) ) );
           next[y][x].b = B + ( (dB * laplaceB( x, y )) + ( A * B * B ) - ( (k + feed ) * B ) );
         }
