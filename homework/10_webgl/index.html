@@ -2,6 +2,7 @@
 <html lang="en-US">
   <head>
     <title>Open GL</title>
+    <script src="cell.js"></script>
   </head>
   
   <body>
@@ -28,26 +29,49 @@
       uniform sampler2D uSampler; 
 
       void main() {
-        gl_FragColor = texture2D(uSampler,vec2(vTexCoord.s, vTexCoord.t));
+        gl_FragColor = texture2D(uSampler,vec2(vTexCoord.s *.001, vTexCoord.t));
       } 
   </script>
 
   <script>
+    "use strict"
+    
+    // variables for canvas and webgl
     let gl, textureCtx, canvas, textureCanvas,
         buffer, vertexSource, vertexShader,
         fragmentSource, fragmentShader,
-        program;
+        texture, program;
+    
+    // variables for Game of Life
+    let currentGrid = [];
+    let nextGrid = [];
+    const cellCount = 128;
 
     window.onload = function() {
 
       canvas = document.getElementById( "gl" );
-      canvas.width = canvas.height = 256;
+      canvas.width = canvas.height = 512;
       gl = canvas.getContext( "webgl" );
 
-      textureCavnas = document.getElementById( "texture" );
-      textureCavnas.width = textureCavnas.height = 256;
-      textureCtx = textureCavnas.getContext( "2d" );
-
+      textureCanvas = document.getElementById( "texture" );
+      textureCanvas.width = textureCanvas.height = 512;
+      textureCtx = textureCanvas.getContext( "2d" );
+      
+      textureCanvas.style.display = "none";
+      
+      initGL();
+      
+      // set the context for the Cell prototype
+      Cell.ctx = textureCtx;
+      // set the cell size
+      Cell.size = textureCanvas.width / cellCount;
+      
+      createGrid( cellCount );
+      
+      render();
+    }
+    
+    function initGL() {
       // define drawing area of canvas. bottom corner, width / height 
       gl.viewport( 0, 0, gl.drawingBufferWidth*2, gl.drawingBufferHeight*2 );   
       // create a buffer object to store vertices 
@@ -56,7 +80,13 @@
       // point buffer at graphic context's ARRAY_BUFFER 
       gl.bindBuffer( gl.ARRAY_BUFFER, buffer );
 
-      let triangles = new Float32Array( [-1, -1,  1, -1,  -1, 1,  -1, 1,  1, -1, 1, 1 ] );
+      let triangles = new Float32Array( [
+        -1.0, -1.0,
+         1.0, -1.0,
+        -1.0,  1.0,
+        -1.0,  1.0,
+         1.0, -1.0,
+         1.0,  1.0 ] );
 
       // initialize memory for buffer and populate it. Give  
       // WebGL hint contents will not change dynamically. 
@@ -93,11 +123,9 @@
       gl.uniform1i( program.samplerUniform, 0 );
 
       texture = gl.createTexture();
-
-      render();
     }
 
-    getTexture = function(){
+    function getTexture(){
       gl.pixelStorei( gl.UNPACK_FLIP_Y_WEBGL, true );
 
       gl.bindTexture( gl.TEXTURE_2D, texture );
@@ -107,13 +135,13 @@
       gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR );
     }
 
-    webglSetup = function(){
+    function webglSetup(){
       gl.clearColor( 1.0,1.0,1.0,1.0 );
       gl.clear( gl.COLOR_BUFFER_BIT );
       gl.activeTexture( gl.TEXTURE0 );
     }
 
-    render = function() { 
+    function render() { 
       window.requestAnimationFrame( render, canvas );
 
       webglSetup();
@@ -127,11 +155,106 @@
       // draw triangles using the array buffer from index 0 to 6 (6 is count)
       // and using the bound texture 
       gl.drawArrays( gl.TRIANGLES, 0, 6 );
+    } 
+
+    function canvasDraw() {
+      update(); 
+
+      textureCtx.fillStyle = "white";
+      textureCtx.fillRect( 0,0, textureCanvas.width, textureCanvas.height );
+
+      for( let y = 0; y < cellCount; y++ ) {
+        let row = currentGrid[y];
+
+        for( let x = 0; x < cellCount; x++ ) {
+          let cell = row[x];
+          
+          if( cell.state ) { cell.draw(); };
+        }
+      }
+    }
+    
+    function update() {
+      let cellWidth = textureCanvas.width / cellCount;
+      let cellHeight = textureCanvas.height / cellCount;
+
+      let swap = currentGrid;
+
+      for( let y = 0; y < cellCount; y++ ) {
+        let row = currentGrid[y];
+        let yPos =  y * cellHeight;
+
+        for( let x = 0; x < cellCount; x++ ) {
+          let currentCell = row[x];
+
+          let numLiving = getCellNeighbors( currentGrid, x, y)
+          .filter( cell => currentGrid[ cell[1] ][ cell[0] ].state === true ) // only keep living cells
+          .length;
+
+          currentCell.state = cellEvolve( currentCell, numLiving );
+
+          nextGrid[y][x] = currentCell;
+        }
+      }
+
+      currentGrid = nextGrid;
+      nextGrid = swap;
+    }
+    
+    function getCellNeighbors( myArray, i, j ) {  
+      let rowLimit = myArray[0].length - 1;
+      let columnLimit = myArray.length - 1;
+      let neighbors = [];
+
+      // Math.max() is being used to find the lower bound
+      // and ensure that the search does not go bellow the
+      // lower limit of 0
+
+      // Math.min() is being used to find the upper bound
+      // and ensure that the search does not exceed either
+      // the row length or the column length
+      for( let y = Math.max( 0, j-1 ); y <= Math.min( j+1, rowLimit ); y++ ) {
+        for( let x = Math.max( 0, i-1 ); x <= Math.min( i+1, columnLimit ); x++ ) {
+          // if x === i && y ====j this statement will return false
+          // this ignores the cell which we are searching from (i.e. the central cell)
+          if( x !== i || y !== j ) { 
+            neighbors.push([x, y]); // store index value of the neighbor
+          }
+        }
+      }
+
+      return neighbors;
+    }
+    
+    function cellEvolve( currentCell, neighbors ) {
+      if( currentCell.state == 0 && neighbors === 3) {
+        return true;
+      }
+      else if( currentCell.state == 1 && (neighbors < 2  || neighbors > 3) ) {
+        return false;
+      }
+      else {
+        return currentCell.state;
+      }
     }
 
-    canvasDraw = function() {
-      textureCtx.fill = "black";
-      textureCtx.fillRect( 0, 0, 256, 256 );
+    function createGrid( cellCount ) {
+      for( let y = 0; y < cellCount; y++ ) {
+        currentGrid[y] = []
+        nextGrid[y] = [];
+
+        for( let x = 0; x < cellCount; x++ ) {
+          let xPos = x * Cell.size;
+          let yPos = y * Cell.size;
+
+          let cell = Cell.create();
+          cell.init( xPos, yPos );
+          cell.draw();
+
+          currentGrid[y][x] = cell;
+          nextGrid[y][x] = 0;
+        }
+      }
     }
 
   </script>
