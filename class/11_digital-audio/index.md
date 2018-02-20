@@ -1,4 +1,4 @@
-### Intorduction to Computational Asthetics
+### Analog to Digital Audio
 ###### Teusday, February 20, 2018
 
 #### Examples
