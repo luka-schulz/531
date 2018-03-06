@@ -33,24 +33,25 @@
     gui.add(position, "y", 0, 200).name("y");
     gui.add(position, "z", 0, 200).name("z");
     gui.add(position, "preset1").name("Preset 1").listen().onChange( function(){
-      // Clear the scene of all geometry
-      while(app.scene.children.length > 0){ 
-        app.scene.remove(app.scene.children[0]); 
-      }
-      
+
       h = 0.01;
 
       x0 = 0.1;
       y0 = 0;
       z0 = 0;
       
+      // Clear the scene of all geometry
+      while( app.scene.children.length >  0){ 
+        app.scene.remove( app.scene.children[0] ); 
+      }
+      
       position.preset1 = true;
       position.preset2 = false;
     });
     gui.add(position, "preset2").name("Preset 2").listen().onChange( function(){  
       // Clear the scene of all geometry
-      while(app.scene.children.length > 0){ 
-        app.scene.remove(app.scene.children[0]); 
+      while( app.scene.children.length >  0){ 
+        app.scene.remove( app.scene.children[0] ); 
       }
 
       h = 0.001099;
@@ -59,8 +60,9 @@
       y0 = 0.0001;
       z0 = 0.0001;
       
-      while(app.scene.children.length > 0){ 
-        app.scene.remove(app.scene.children[0]); 
+      // Clear the scene of all geometry
+      while( app.scene.children.length >  0){ 
+        app.scene.remove( app.scene.children[0] ); 
       }
       
       position.preset1 = false;
