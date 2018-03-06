@@ -2,8 +2,6 @@ window.app = {
   meshes: [],
 
   init() {
-    this.adamTexture = new THREE.TextureLoader().load( "textures/adam.png" );
-    
     // Initialize lorenz values
     this.initLorenz();
     
@@ -66,7 +64,8 @@ window.app = {
     let material;
     if( position.adamMode ) {
       material = new THREE.MeshPhongMaterial( {
-        map: this.adamTexture,
+        alphaMap: new THREE.TextureLoader().load( "textures/adamS-alpha.png" ),
+        map: new THREE.TextureLoader().load( "textures/adamS.png" ),
       } );
     }
     else {
