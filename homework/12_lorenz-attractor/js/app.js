@@ -65,7 +65,7 @@ window.app = {
     if( position.adamMode ) {
       material = new THREE.MeshPhongMaterial( {
         alphaMap: new THREE.TextureLoader().load( "textures/adamS-alpha.png" ),
-        emissive: new THREE.TextureLoader().load( "textures/adamS.png" ),
+        map: new THREE.TextureLoader().load( "textures/adamS.png" ),
       } );
       
       material.transparent = true
