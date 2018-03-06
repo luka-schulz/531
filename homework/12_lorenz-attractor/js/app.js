@@ -67,6 +67,8 @@ window.app = {
         alphaMap: new THREE.TextureLoader().load( "textures/adamS-alpha.png" ),
         map: new THREE.TextureLoader().load( "textures/adamS.png" ),
       } );
+      
+      material.transparent = true
     }
     else {
       // color is created from the objects position
