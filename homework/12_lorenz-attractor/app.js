@@ -62,7 +62,6 @@ window.app = {
     cube.position.z = z;
 
     this.scene.add( cube );
-    //this.meshes.push( cube );
   },
 
   render() {
