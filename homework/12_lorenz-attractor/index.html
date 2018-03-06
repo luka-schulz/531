@@ -4,46 +4,58 @@
     <style>
       
       body {
-        margin:0
+        margin:0;
+        overflow: hidden;
+      }
+      
+      .hide {
+        clip: rect(0 0 0 0);
+        height: 1px;
+        width: 1px;
+        margin: -1px;
+        padding: 0;
+        border: 0;
+        overflow: hidden;
+        position: absolute
       }
       
     </style>
     
-    <script src="dat.gui.min.js"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/88/three.min.js'></script>
-    <script src='./app.js'></script>
+    <script src="js/dat.gui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/88/three.min.js"></script>
+    <script src="js/app.js"></script>
   </head>
   
-  <body></body>
+  <body>
+    <div id="audio-container" class="hide">
+      <audio controls controlsList="nodownload" loop></audio>
+    </div>
+  </body>
   
   <script>
     let guiControls = function() {
       this.x = 0;
-      this.y = 17;
-      this.z = 84;
+      this.y = 0;
+      this.z = 100;
       this.preset1 = true;
       this.preset2 = false;
+      this.adamMode = false;
     }
 
     let position = new guiControls();
 
     let gui = new dat.GUI();
 
-    gui.add(position, "x", 0, 200).name("x");
-    gui.add(position, "y", 0, 200).name("y");
-    gui.add(position, "z", 0, 200).name("z");
+    gui.add(position, "x", -200, 200).name("x");
+    gui.add(position, "y", -200, 200).name("y");
+    gui.add(position, "z", -200, 200).name("z");
     gui.add(position, "preset1").name("Preset 1").listen().onChange( function(){
 
-      h = 0.01;
-
-      x0 = 0.1;
-      y0 = 0;
-      z0 = 0;
+      app.a = 10;
+      app.b = 28;
+      app.c = 8 / 3
       
-      // Clear the scene of all geometry
-      while( app.scene.children.length >  0){ 
-        app.scene.remove( app.scene.children[0] ); 
-      }
+      app.reset();
       
       position.preset1 = true;
       position.preset2 = false;
@@ -54,19 +66,17 @@
         app.scene.remove( app.scene.children[0] ); 
       }
 
-      h = 0.001099;
-
-      x0 = 0.0001;
-      y0 = 0.0001;
-      z0 = 0.0001;
+      app.a = 28;
+      app.b = 46.92;
+      app.c = 4;
       
-      // Clear the scene of all geometry
-      while( app.scene.children.length >  0){ 
-        app.scene.remove( app.scene.children[0] ); 
-      }
+      app.reset();
       
       position.preset1 = false;
       position.preset2 = true;
+    });
+    gui.add(position, "adamMode").name("Adam Mode").listen().onChange( function(){  
+      console.log( "ADAM!" );
     });
   </script>
 </html>
