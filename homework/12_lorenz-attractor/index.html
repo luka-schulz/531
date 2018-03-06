@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang='en-US'>
+  <head>
+    <style>
+      
+      body {
+        margin:0
+      }
+      
+    </style>
+    
+    <script src="dat.gui.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/88/three.min.js'></script>
+    <script src='./app.js'></script>
+  </head>
+  
+  <body></body>
+  
+  <script>
+    let guiControls = function() {
+      this.x = 0;
+      this.y = 17;
+      this.z = 84;
+      this.preset1 = true;
+      this.preset2 = false;
+    }
+
+    let position = new guiControls();
+
+    let gui = new dat.GUI();
+
+    gui.add(position, "x", 0, 200).name("x");
+    gui.add(position, "y", 0, 200).name("y");
+    gui.add(position, "z", 0, 200).name("z");
+    gui.add(position, "preset1").name("Preset 1").listen().onChange( function(){
+      h = 0.01;
+
+      x0 = 0.1;
+      y0 = 0;
+      z0 = 0;
+      
+      for (var i = app.scene.children.length - 1; i >= 0; i--) {
+        app.scene.remove( app.scene.children[i] );
+      }
+      
+      position.preset1 = true;
+      position.preset2 = false;
+    });
+    gui.add(position, "preset2").name("Preset 2").listen().onChange( function(){  
+      h = 0.001099;
+
+      x0 = 0.0001;
+      y0 = 0.0001;
+      z0 = 0.0001;
+      
+      for (var i = app.scene.children.length - 1; i >= 0; i--) {
+        app.scene.remove( app.scene.children[i] );
+      }
+      
+      position.preset1 = false;
+      position.preset2 = true;
+    });
+  </script>
+</html>
