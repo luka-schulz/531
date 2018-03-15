@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Game of Life</title>
+    
+    <meta name="viewport" content="initial-scale=1" />
+    <meta name="theme-color" content="#FFD500" />
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Space+Mono" rel="stylesheet">
+    
+    <!-- User Scripts -->
+    <script src="cell.js"></script>
+    <script src="app.js"></script>
+    
+    <!-- Styles -->
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Space Mono', monospace;
+      }
+      
+      canvas {
+        position:absolute;
+        width: 800;
+        height: 800;
+        border: 1px solid #d4d4d4;
+      }
+      
+      .hide {
+        clip: rect(0 0 0 0);
+        height: 1px; width: 1px;
+        margin: -1px; padding: 0; border: 0;
+        overflow: hidden;
+        position: absolute;
+      }
+    </style>
+    
+    
+  </head>
+  
+  <body>
+    <canvas></canvas>
+    <img id="image" class="" src="adam.png">
+  </body>
+</html>
