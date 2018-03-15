@@ -55,7 +55,6 @@
       Cell.ctx = this.ctx;
       // set the cell size
       Cell.size = this.canvas.width / cellCount;
-      Cell.image = document.getElementById( "image" );
       
       createGrid( cellCount );
       
