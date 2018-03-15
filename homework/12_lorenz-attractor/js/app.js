@@ -15,6 +15,12 @@ window.app = {
       .1,  // near plane
       1000 // far plane
     )
+    
+    this.controls = new THREE.OrbitControls(this.camera);
+    this.camera.position.x = 0;
+    this.camera.position.y = 0;
+    this.camera.position.z = 100;
+    this.controls.update();
 
     this.createRenderer()
     this.createLights()
@@ -90,10 +96,7 @@ window.app = {
   },
 
   render() {
-    this.camera.position.x = position.x;
-    this.camera.position.y = position.y;
-    this.camera.position.z = position.z;
-    this.camera.lookAt(this.scene.position);
+    this.controls.update();
     
     window.requestAnimationFrame( this.render )
     

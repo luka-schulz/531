@@ -23,6 +23,7 @@
     
     <script src="js/dat.gui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/88/three.min.js"></script>
+    <script src="js/OrbitControls.js"></script>
     <script src="js/app.js"></script>
   </head>
   
@@ -46,9 +47,9 @@
 
     let gui = new dat.GUI();
 
-    gui.add(position, "x", -200, 200).name("x");
-    gui.add(position, "y", -200, 200).name("y");
-    gui.add(position, "z", -200, 200).name("z");
+//    gui.add(position, "x", -200, 200).name("x");
+//    gui.add(position, "y", -200, 200).name("y");
+//    gui.add(position, "z", -200, 200).name("z");
     gui.add(position, "preset1").name("Preset 1").listen().onChange( function(){
 
       app.a = 10;
