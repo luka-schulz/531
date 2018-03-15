@@ -32,3 +32,15 @@ Welcome to my repository for IGME-531, Computational Asthetics. This webiste wil
 06. [L-Systems](https://luka-schulz.github.io/531/homework/06_l-system/ "L-Systems")
 
 07. [Koch Dots](https://luka-schulz.github.io/531/homework/07_koch/ "Kotch Dots")
+
+08. [Audio Automata](https://luka-schulz.github.io/531/homework/08_audio-automata/ "Audio Automata")
+
+09. [Generative Music](https://luka-schulz.github.io/531/homework/09_generative-music/ "Generative Music")
+
+10. [Reaction Diffusion](https://luka-schulz.github.io/531/homework/09_reaction-diffusion "Reaction Diffusion")
+
+11. [WebGL](https://luka-schulz.github.io/531/homework/10_webgl "WebGL")
+
+12. [Shader Diffusion](https://luka-schulz.github.io/531/homework/11_shader-diffusion "Shader Diffusion")
+
+13. [Lorenz Attractor](https://luka-schulz.github.io/531/homework/12_lorenz-attractor "Lorenz Attractor")
