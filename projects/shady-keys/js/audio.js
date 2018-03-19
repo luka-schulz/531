@@ -1,6 +1,6 @@
 const Audio = {
   ctx: new AudioContext(),
-  scale: [ "C2", "C#2", "D2", "D#2", "E2", "F2", "F#2", "G2", "G#2", "A2", "A#2", "B2", "C3" ],
+  scale: [ "C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A4", "A#4", "B4", "C5" ],
   
   create() {
     const audio = Object.create( this );
