@@ -17,5 +17,11 @@ window.onload = function() {
   canvas.width = 500;
   canvas.height = 500;
   
-  
+  var gradient = ctx.createLinearGradient(0, 0, 500, 0);
+  gradient.addColorStop(0, "white");
+  gradient.addColorStop(.5, "black");
+  gradient.addColorStop(1, "white");
+
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, 500, 500);
 }
