@@ -1,20 +1,96 @@
-<!DOCTYPE html>
-<html lang='en-US'>
-  <head>
+<!doctype html>  
+<html lang="en">  
+  <head> 
     <meta charset="utf-8">
     <meta name="viewport"content="initial-scale=1">
-    
+
     <title>Shady Keys</title>
-    
+
     <link href="css/main.css" rel="stylesheet" type="text/css">
-
-    <script src="js/tonal.min.js"></script>
-    <script src="js/utility.js"></script>
-    <script src="js/audio.js"></script>
-    <script src="js/app.js"></script>
-  </head>
-
-  <body>
-    <canvas id="canvas" ></canvas>
+    
+    <script src="js/shader.js" type="text/javascript"></script>
+  </head> 
+  
+  <body> 
+    <canvas id="canvas"></canvas>  
   </body>
-</html>
+  
+  <script id="vshader" type="whatever">  
+    precision mediump float;
+
+    attribute vec2 a_position;
+
+    void main() {
+      gl_Position = vec4( a_position, 0, 1.0);
+    }
+  </script>
+  
+  <script id="fshader_draw" type="whatever">
+    precision mediump float;
+    uniform sampler2D state;
+    uniform vec2 scale;
+
+    void main() {
+      vec4 color = texture2D(state, gl_FragCoord.xy / scale);
+      gl_FragColor = vec4( 1.-color.x, 1.-color.x, 1.-color.x, 1. );
+    }
+  </script>
+  
+  <script id="fshader_render" type="whatever">  
+    precision mediump float;
+    uniform sampler2D state;
+    uniform vec2 scale;
+
+    float f=.0545, k=.062, dA = 1., dB = 0.5; // coral preset
+
+    vec2 get(int x, int y) {
+      return texture2D( state, ( gl_FragCoord.xy + vec2(x, y) ) / scale ).rg;
+     }
+
+    vec2 run() {
+      vec2 state = get( 0, 0 );
+      float a = state.r;
+      float b = state.g;
+      float sumA = a * -1.;
+      float sumB = b * -1.;
+
+      sumA += get(-1,0).r * .2;
+      sumA += get(-1,-1).r * .05;
+      sumA += get(0,-1).r * .2;
+      sumA += get(1,-1).r * .05;
+      sumA += get(1,0).r * .2;
+      sumA += get(1,1).r * .05;
+      sumA += get(0,1).r * .2;
+      sumA += get(-1,1).r * .05;
+
+      sumB += get(-1,0).g * .2;
+      sumB += get(-1,-1).g * .05;
+      sumB += get(0,-1).g * .2;
+      sumB += get(1,-1).g * .05;
+      sumB += get(1,0).g * .2;
+      sumB += get(1,1).g * .05;
+      sumB += get(0,1).g * .2;
+      sumB += get(-1,1).g * .05;
+
+      state.r = a + dA * sumA - a*b*b+  f * (1. - a);
+
+      state.g = b + dB * sumB +   a*b*b-  ((k+f) * b);
+
+      return state;
+    } 
+
+    void main() {
+
+    vec2 nextState = run();
+      gl_FragColor = vec4( nextState.r, nextState.g, 0., 1. );
+    }
+  </script>
+    
+</html> 
+
+
+
+
+
+
+

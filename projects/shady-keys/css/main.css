@@ -1,6 +1,7 @@
 body {
   margin:0;
   overflow: hidden;
+  background: black;
 }
 
 .hide {
@@ -15,7 +16,8 @@ body {
 }
 
 canvas {
-  width: 500px;
-  height: 500px;
+  position: relative;
+  width: 100%;
+  height: 100%;
   background: black;
 }
