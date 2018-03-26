@@ -41,6 +41,8 @@
     uniform sampler2D state;
     uniform vec2 scale;
 
+    //  + (gl_FragCoord.x / scale.x)
+    // deterimne suitable range
     float f=.0545, k=.062, dA = 1., dB = 0.5; // coral preset
 
     vec2 get(int x, int y) {

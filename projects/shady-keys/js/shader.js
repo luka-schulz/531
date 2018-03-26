@@ -18,6 +18,7 @@ window.onload = function() {
     1, 1,  -1, -1,  1, -1, 
   ]
 
+  // passes the two triangles to the gpu
   let vertBuffer = gl.createBuffer() 
   gl.bindBuffer( gl.ARRAY_BUFFER, vertBuffer ) 
   gl.bufferData( gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW )  
