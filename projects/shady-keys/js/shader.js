@@ -54,6 +54,7 @@ window.onload = function() {
   gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0)
   let scale = gl.getUniformLocation(programRender, "scale") 
   gl.uniform2f(scale, stateSize, stateSize)
+  //uniform1f for time
 
   shaderScript = document.getElementById( "fshader_draw" )  
   shaderSource = shaderScript.text 

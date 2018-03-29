@@ -43,13 +43,28 @@
 
     //  + (gl_FragCoord.x / scale.x)
     // deterimne suitable range
-    float f=.0545, k=.062, dA = 1., dB = 0.5; // coral preset
-
+    // F 0.0060, k 0.0310
+    // F 0.1100, k 0.0530 
+    float f  = 0.0545,
+          k  = 0.0620,
+          dA = 1.0000,
+          dB = 0.5000;
+          
     vec2 get(int x, int y) {
       return texture2D( state, ( gl_FragCoord.xy + vec2(x, y) ) / scale ).rg;
      }
 
-    vec2 run() {
+     float _f( float f ) {
+      float coordAdjust = float( gl_FragCoord.x / scale.x);
+      return (f + coordAdjust ) * .12;
+     }
+     
+     float _k( float k ) {
+      float coordAdjust = float( gl_FragCoord.y / scale.y );
+      return (k + coordAdjust - .0009 ) * .121;
+     }
+
+     vec2 run() {
       vec2 state = get( 0, 0 );
       float a = state.r;
       float b = state.g;
@@ -73,10 +88,13 @@
       sumB += get(1,1).g * .05;
       sumB += get(0,1).g * .2;
       sumB += get(-1,1).g * .05;
+      
+      float newF = _f(f);
+      float newK = _k(k);
 
-      state.r = a + dA * sumA - a*b*b+  f * (1. - a);
+      state.r = a + dA * sumA - a*b*b+ newF * (1. - a);
 
-      state.g = b + dB * sumB +   a*b*b-  ((k+f) * b);
+      state.g = b + dB * sumB + a*b*b - (( newK + newF ) * b);
 
       return state;
     } 
