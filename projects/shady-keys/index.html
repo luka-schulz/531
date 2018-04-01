@@ -8,6 +8,9 @@
 
     <link href="css/main.css" rel="stylesheet" type="text/css">
     
+    <script src="js/tonal.min.js" type="text/javascript"></script>
+    <script src="js/audio.js" type="text/javascript"></script>
+    <script src="js/utility.js" type="text/javascript"></script>
     <script src="js/shader.js" type="text/javascript"></script>
   </head> 
   
@@ -29,7 +32,7 @@
     precision mediump float;
     uniform sampler2D state;
     uniform vec2 scale;
-
+    
     void main() {
       vec4 color = texture2D(state, gl_FragCoord.xy / scale);
       gl_FragColor = vec4( 1.-color.x, 1.-color.x, 1.-color.x, 1. );
@@ -40,28 +43,29 @@
     precision mediump float;
     uniform sampler2D state;
     uniform vec2 scale;
-
+  
+    uniform float f;
+    uniform float k;
+    uniform float dA;
+    uniform float dB;
+    
     //  + (gl_FragCoord.x / scale.x)
     // deterimne suitable range
     // F 0.0060, k 0.0310
     // F 0.1100, k 0.0530 
-    float f  = 0.0545,
-          k  = 0.0620,
-          dA = 1.0000,
-          dB = 0.5000;
-          
+
     vec2 get(int x, int y) {
       return texture2D( state, ( gl_FragCoord.xy + vec2(x, y) ) / scale ).rg;
      }
 
      float _f( float f ) {
-      float coordAdjust = float( gl_FragCoord.x / scale.x);
-      return (f + coordAdjust ) * .12;
+      float coordAdjust = float( gl_FragCoord.x / scale.x) / 100000000.;
+      return f + coordAdjust;
      }
      
      float _k( float k ) {
-      float coordAdjust = float( gl_FragCoord.y / scale.y );
-      return (k + coordAdjust - .0009 ) * .121;
+      float coordAdjust = float( gl_FragCoord.y / scale.y ) / 2.;
+      return k;
      }
 
      vec2 run() {
