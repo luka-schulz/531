@@ -10,6 +10,8 @@ let coefficiencs = {
 }
 
 window.onload = function() {
+  
+  
   document.onkeypress = checkKeystroke;
   let canvas = document.getElementById( "canvas" );
   let gl = canvas.getContext( "webgl" );

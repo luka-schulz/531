@@ -6,7 +6,8 @@ function checkKeystroke( event ) {
     case 97:
       freq = Tonal.freq( Audio.scale[0] );
       console.log( Audio.scale[0] );
-      coefficiencs.aX++;
+      coefficients.f += .005;
+//      coefficiencs.aX++;
       break;
 //    case 119:
 //      freq = Tonal.freq( Audio.scale[1] );
@@ -15,7 +16,8 @@ function checkKeystroke( event ) {
     case 115:
       freq = Tonal.freq( Audio.scale[2] );
       console.log( Audio.scale[2] );
-      coefficiencs.aX--;
+      coefficients.f -= .005; 
+//      coefficiencs.aX--;
       break;
 //    case 101:
 //      freq = Tonal.freq( Audio.scale[3] );
@@ -24,12 +26,14 @@ function checkKeystroke( event ) {
     case 100:
       freq = Tonal.freq( Audio.scale[4] );
       console.log( Audio.scale[4] );
-      coefficiencs.bX++;
+      coefficients.k += .001;
+//      coefficiencs.bX++;
       break;
     case 102:
       freq = Tonal.freq( Audio.scale[5] );
       console.log( Audio.scale[5] );
-      coefficiencs.bX--;
+      coefficients.k -= .001;
+//      coefficiencs.bX--;
       break;
 //    case 116:
 //      freq = Tonal.freq( Audio.scale[6] );
@@ -38,7 +42,8 @@ function checkKeystroke( event ) {
     case 106:
       freq = Tonal.freq( Audio.scale[7] );
       console.log( Audio.scale[7] );
-      coefficiencs.aY++;
+      coefficients.dA += .04;
+//      coefficiencs.aY++;
       break;
 //    case 105:
 //      freq = Tonal.freq( Audio.scale[8] );
@@ -47,7 +52,8 @@ function checkKeystroke( event ) {
     case 107:
       freq = Tonal.freq( Audio.scale[9] );
       console.log( Audio.scale[9] );
-      coefficiencs.aY--;
+      coefficients.dA -= .05;
+//      coefficiencs.aY--;
       break;
 //    case 111:
 //      freq = Tonal.freq( Audio.scale[10] );
@@ -56,26 +62,19 @@ function checkKeystroke( event ) {
     case 108:
       freq = Tonal.freq( Audio.scale[11] );
       console.log( Audio.scale[11] );
-      coefficiencs.bY++;
+      coefficients.dB += .05;
+//      coefficiencs.bY++;
       break;
     case 59:
       freq = Tonal.freq( Audio.scale[12] );
       console.log( Audio.scale[12] );
-      coefficiencs.bY--;
+      coefficients.dB -= .05;
+//      coefficiencs.bY--;
       break;
     default:
       freq = 0;
       console.log( "Man go press some other keys" );
   }
   
-  var gradient = ctx.createLinearGradient(0 - coefficiencs.aX,0,500 + coefficiencs.aX,0);
-  gradient.addColorStop(0, "white");
-  gradient.addColorStop(.5, "black");
-  gradient.addColorStop(1, "white");
-
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, 500, 500);
-  
-  audio.startNote( freq, 1, .001, .15);
-  console.log( coefficiencs )
+  Audio.startNote( freq, 1, .001, .15);
 };
