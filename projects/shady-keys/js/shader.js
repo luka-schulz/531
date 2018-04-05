@@ -5,13 +5,13 @@ let coefficients = {
   dB: 0.5000,
 }
 
+let reset;
+
 window.onload = function() {
   let canvas = document.getElementById( "canvas" );
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   let gl = canvas.getContext( "webgl" );
-  
-  document.onkeypress = checkKeystroke;
 
   // stateSize will be the size of our simulation data. This needs to be
   // a power of two in order to determine our texture sizes, hence the math below.
@@ -113,20 +113,25 @@ window.onload = function() {
   gl.texImage2D( gl.TEXTURE_2D, 0, gl.RGBA, stateSize, stateSize, 0, gl.RGBA, gl.FLOAT, null );
 
   const pixelSize = 4;
-  const feedSize = 48;
+  const feedSize = 8;
   const initState = new Float32Array( stateSize * stateSize * pixelSize );
 
   // reset our simulation state to all {a:1, b:0} and then fill a smaller
   // center area with b:1
-  const reset = function() { 
+  reset = function() {
+    coefficients.f  = 0.0545;
+    coefficients.k  = 0.0620;
+    coefficients.dA = 1.0000;
+    coefficients.dB = 0.5000;
+    
     for( let i = 0; i < stateSize; i++ ) { 
       for( let j = 0; j < stateSize * pixelSize; j+= pixelSize ) { 
         // this will be our "a" value in the simulation  
         initState[ i * stateSize * pixelSize + j ] = 1;
         // selectively add "b" value to middle of screen  
-        if( i > stateSize / 2 - stateSize / feedSize
+        if( i > stateSize / 2.5 - stateSize / feedSize
            && i < stateSize / 2 + stateSize / feedSize ) { 
-          const xmin = j > (stateSize*pixelSize) / 2 - stateSize / feedSize;
+          const xmin = j > (stateSize*pixelSize) / 2.5 - stateSize / feedSize;
           const xmax = j < (stateSize*pixelSize) / 2 + (stateSize*pixelSize) / feedSize;
           if( xmin && xmax ) { 
             initState[ i * stateSize * pixelSize + j + 1 ] = 1;
@@ -140,8 +145,6 @@ window.onload = function() {
       initState, 0  
     );
   } 
-
-  reset();
 
   const fb = gl.createFramebuffer();
   const fb2 = gl.createFramebuffer();
