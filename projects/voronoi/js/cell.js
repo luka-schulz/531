@@ -5,6 +5,9 @@
  * for growth.
  */
 const Cell = {
+  MAX_SIZE: 150,
+  GROWTH_RATE: 2,
+  
   /**
    * Creates a cell based on the x, y coordinates
    * passed to the function. The default cell is
@@ -51,7 +54,9 @@ const Cell = {
    * of the cell. It grows 8 units each frame.
    */
   growCell() {
-    this.cellSize += 8;
+    if( this.cellSize < this.MAX_SIZE) {
+      this.cellSize += this.GROWTH_RATE;
+    }
     this.ctx.strokeStyle = this.color;
     this.ctx.beginPath();
     this.ctx.arc( this.x, this.y, this.cellSize, 0, 2*Math.PI );
@@ -61,18 +66,20 @@ const Cell = {
   
   /**
    * When a Cell's grow funciton is called, its
-   * cellSize is increased by 8 units. The growth
-   * stops only when the cell is larger than the
-   * canvas (hard-coded to 1200 units).
+   * cellSize is increased by GROWTH_SIZE. The growth
+   * stops only when the cell has reached its MAX_SIZE.
    */
   grow() {
-    if( this.cellSize > 1200 ) {
-      this.drawPoint(); // draw center point one lat time
-      this.growState = false;
-    }
-    else {
-      this.drawPoint(); // re-draw the center point each time
-      this.growCell();
-    }
+    this.drawPoint();
+    this.growCell();
+    
+//    if( this.cellSize > this.MAXSIZE ) {
+//      this.drawPoint(); // draw center point one lat time
+//      this.growState = false;
+//    }
+//    else {
+//      this.drawPoint(); // re-draw the center point each time
+//      this.growCell();
+//    }
   },
 }
