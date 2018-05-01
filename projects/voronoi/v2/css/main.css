@@ -1,0 +1,12 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+canvas {
+  background: black;
+  width: 800px;
+  height: 800px;
+  cursor: url("./adams.png") 50 50, auto;
+}
+
