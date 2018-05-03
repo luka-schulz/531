@@ -1,6 +1,16 @@
 "use strict"
 
 window.onload = function() {
+  let toggle = false;
+  let mouseMoved = false;
+  
+  let button = document.getElementById( "voronoiStart" );
+  button.onclick = function() {
+    button.classList.toggle("hide");
+    document.getElementById( "introScreen" ).classList.toggle("hide");
+    toggle = false;
+  }
+  
   let canvas = d3.select( "canvas" )
     .on( "touchmove mousemove", moved )
     .node();
@@ -16,12 +26,42 @@ window.onload = function() {
   
   let sites = [];
   generateSites();
-  setupScaleObject( sites.length );
+  
+  let notes = setupScaleObject( sites.length );
   
   let voronoi = d3.voronoi()
     .extent([[-1, -1], [width + 1, height + 1]]);
   
+  while( toggle ) {
+    redraw();
+  }
+  
   redraw();
+  
+  // GUI SETUP
+  let guiControls = function() {
+    this.key = "C4";
+    this.scaleName = "aeolian";
+  }
+
+  let scaleControls = new guiControls();
+
+  let gui = new dat.GUI();
+  
+  gui.add( scaleControls, "key", ["A4", "B4", "C4", "D4", "E4", "F4", "G4"] ).name("Key").onChange( function() {
+    for( let note in notes ) {
+      notes[note].oscilator.gainNode.disconnect();
+    }
+    notes = setupScaleObject( sites.length, scaleControls.key, scaleControls.scaleName );
+    console.log( scaleControls.key )
+  });
+  gui.add( scaleControls, "scaleName", Tonal.scale.names() ).name("Scale").onChange( function() {
+    for( let note in notes ) {
+      notes[note].oscilator.gainNode.disconnect();
+    }
+    notes = setupScaleObject( sites.length, scaleControls.key, scaleControls.scaleName );
+    console.log( notes )
+  });
   
   /**
    * Callback funciton fired when the mouse moves.
@@ -29,6 +69,8 @@ window.onload = function() {
    * @param {[[Type]]} event [[Description]]
    */
   function moved( event ) {
+    mouseMoved = true;
+    
     let mouse = d3.mouse(this);
     sites[0] = mouse;
     
@@ -42,7 +84,6 @@ window.onload = function() {
     let polygons = diagram.polygons();
     
     let currCell = diagram.cells[0];
-    
     let currCellNeighbors = [];
     
     // itterate through the active cells boarder edge (halfedges)
@@ -51,6 +92,8 @@ window.onload = function() {
       let edgeIdx = currCell.halfedges[i];
       let edge = diagram.edges[edgeIdx];
       let neighborSite = edge.left;
+      
+      let distance = getDistance( edge[0][0], edge[0][1], edge[1][0], edge[1][1] );
       
       // if the neighbors site is the same as the current cells site
       // that means the left site is either outside the diagram
@@ -62,44 +105,43 @@ window.onload = function() {
       
       if( neighborSite ) {
         currCellNeighbors.push( neighborSite.index );
+        if( mouseMoved) notes[neighborSite.index].oscilator.changeAmplitude( distance );
       }
     }
     
     // draw the first cell
     // i.e. the cell being interacted with
-    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = "rgba(0, 0, 0, .2)";
+    ctx.fillRect(0, 0, width, height);
+    ctx.fill();
     ctx.beginPath();
     drawCell( polygons[0] );
-    ctx.fillStyle = "#f00";
+    ctx.fillStyle = "#000000";
     ctx.fill();
     
     // draw the neighboring cells
     ctx.beginPath();
+    let color;
     for( let i = 0, n = currCellNeighbors.length; i < n; ++i ) {
-      let neigborIndex = currCellNeighbors[i]
-      drawCell( polygons[neigborIndex] )
+      let neigborIndex = currCellNeighbors[i];
+      
+      let noteName = notes[neigborIndex].noteName.slice(0, 1);
+      color = COLOR[noteName];
+      
+      drawNeighbor( polygons[neigborIndex], color );
     };
-    ctx.fillStyle = "#0062ff";
-    ctx.fill();
-    
-//    ctx.beginPath();
-//    drawSite(sites[0]);
-//    ctx.fillStyle = "#000";
-//    ctx.fill();
     
     // draw the cell edges
     ctx.beginPath();
     for( let i = 0, n = polygons.length; i < n; ++i ) {
-      drawCell( polygons[i] )
-    };
+      drawCell( polygons[i] ) };
     ctx.strokeStyle = "#fff";
     ctx.stroke();
 
     // draw sites
     ctx.beginPath();
     for(let i = 1, n = sites.length; i < n; ++i) {
-      drawSite(sites[i])
-    };
+      drawSite(sites[i]) };
     ctx.fillStyle = "#fff";
     ctx.fill();
   }
@@ -147,6 +189,31 @@ window.onload = function() {
   }
   
   /**
+   * Helper function for drawing the edges of each
+   * voronoi cell.
+   * 
+   * @param   {Array} cell An array of coordinate pairs
+   * @returns {boolean}  Cell status
+   */
+  function drawNeighbor( cell, color ) {
+    if( !cell ) return false;
+
+    ctx.fillStyle = color;
+    
+    ctx.moveTo( cell[0][0], cell[0][1] );
+
+    for( var j = 1, m = cell.length; j < m; ++j ) {
+      ctx.lineTo(cell[j][0], cell[j][1]);
+    }
+
+    ctx.closePath();
+    
+    ctx.fill();
+
+    return true;
+  }
+  
+  /**
      * Using poisson disc sampling, points are
      * scattared about the canvas. There is a
      * hard-coded 50px buffer to make sure that
@@ -171,5 +238,13 @@ window.onload = function() {
         sites.push( [x, y] );
       }
     }
+  }
+  
+  function getDistance( x1, y1, x2, y2 ) {
+    let a = x1 - x2;
+    let b = y1 - y2;
+    let c = Math.sqrt( a*a + b*b );
+
+    return c;
   }
 }

@@ -1,9 +1,9 @@
 let audioCtx = new (AudioContext || webkitAudioContext)();
 
-function setupScaleObject( numSites ){
+function setupScaleObject( numSites, key = "c4", scaleName = "aeolian" ){
   let scale = {};
   
-  let tonalScale = Tonal.Scale.notes( "c4", "major pentatonic");
+  let tonalScale = Tonal.Scale.notes( key, scaleName);
 
   for( let i = 1; i < numSites; i++ ) {
     let noteObj = {};
@@ -13,10 +13,36 @@ function setupScaleObject( numSites ){
     
     noteObj.frequency = Tonal.freq( noteObj.noteName );
     
-    noteObj.amplitude = 0;
+    noteObj.oscilator = new Sound( noteObj.frequency );
     
-    noteObj.oscilator = null;
+    scale[i] = noteObj;
   }
+  
+  return scale;
+}
+
+function Sound( frequency ) {
+  this.osc = audioCtx.createOscillator(); // Create oscillator node
+  this.gainNode = audioCtx.createGain(); // Create gain node to adjust the volume
+  this.osc.type = "triangle";
+
+  /* Set default configuration for sound */
+  if( typeof frequency !== 'undefined' ) {
+    /* Set frequency. If it's not set, the default is used (440Hz) */
+    this.osc.frequency.value = frequency;
+  }
+
+  this.osc.connect( this.gainNode ); //connect the gain node to the osciallator
+  /* Start playing the sound. You won't hear it yet as the oscillator node needs to be piped to output (AKA your speakers). */
+  this.osc.start( 0 );
+  
+  this.gainNode.gain.value = 0;
+  
+  this.gainNode.connect( audioCtx.destination );
+};
+
+Sound.prototype.changeAmplitude = function( amp ) {
+  this.gainNode.gain.value = amp / 500;
 }
 
 
