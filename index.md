@@ -37,10 +37,10 @@ Welcome to my repository for IGME-531, Computational Asthetics. This webiste wil
 
 09. [Generative Music](https://luka-schulz.github.io/531/homework/09_generative-music/ "Generative Music")
 
-10. [Reaction Diffusion](https://luka-schulz.github.io/531/homework/09_reaction-diffusion "Reaction Diffusion")
+10. [Reaction Diffusion](https://luka-schulz.github.io/531/homework/10_reaction-diffusion "Reaction Diffusion")
 
-11. [WebGL](https://luka-schulz.github.io/531/homework/10_webgl "WebGL")
+11. [WebGL](https://luka-schulz.github.io/531/homework/11_webgl "WebGL")
 
-12. [Shader Diffusion](https://luka-schulz.github.io/531/homework/11_shader-diffusion "Shader Diffusion")
+12. [Shader Diffusion](https://luka-schulz.github.io/531/homework/12_shader-diffusion "Shader Diffusion")
 
-13. [Lorenz Attractor](https://luka-schulz.github.io/531/homework/12_lorenz-attractor "Lorenz Attractor")
+13. [Lorenz Attractor](https://luka-schulz.github.io/531/homework/13_lorenz-attractor "Lorenz Attractor")
