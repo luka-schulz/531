@@ -1,0 +1,69 @@
+{
+  "kind": "customsearch#search",
+  "url": {
+    "type": "application/json",
+    "template": "https://www.googleapis.com/customsearch/v1?q={searchTerms}&num={count?}&start={startIndex?}&lr={language?}&safe={safe?}&cx={cx?}&sort={sort?}&filter={filter?}&gl={gl?}&cr={cr?}&googlehost={googleHost?}&c2coff={disableCnTwTranslation?}&hq={hq?}&hl={hl?}&siteSearch={siteSearch?}&siteSearchFilter={siteSearchFilter?}&exactTerms={exactTerms?}&excludeTerms={excludeTerms?}&linkSite={linkSite?}&orTerms={orTerms?}&relatedSite={relatedSite?}&dateRestrict={dateRestrict?}&lowRange={lowRange?}&highRange={highRange?}&searchType={searchType}&fileType={fileType?}&rights={rights?}&imgSize={imgSize?}&imgType={imgType?}&imgColorType={imgColorType?}&imgDominantColor={imgDominantColor?}&alt=json"
+  },
+  "queries": {
+    "request": [
+      {
+        "title": "Google Custom Search - flower",
+        "totalResults": "2940000000",
+        "searchTerms": "flower",
+        "count": 1,
+        "startIndex": 1,
+        "inputEncoding": "utf8",
+        "outputEncoding": "utf8",
+        "safe": "off",
+        "cx": "006492290114220674113:v5hcbcsea2y",
+        "fileType": "jpg",
+        "searchType": "image"
+      }
+    ],
+    "nextPage": [
+      {
+        "title": "Google Custom Search - flower",
+        "totalResults": "2940000000",
+        "searchTerms": "flower",
+        "count": 1,
+        "startIndex": 2,
+        "inputEncoding": "utf8",
+        "outputEncoding": "utf8",
+        "safe": "off",
+        "cx": "006492290114220674113:v5hcbcsea2y",
+        "fileType": "jpg",
+        "searchType": "image"
+      }
+    ]
+  },
+  "context": {
+    "title": "ml-o-phone"
+  },
+  "searchInformation": {
+    "searchTime": 1.192263,
+    "formattedSearchTime": "1.19",
+    "totalResults": "2940000000",
+    "formattedTotalResults": "2,940,000,000"
+  },
+  "items": [
+    {
+      "kind": "customsearch#result",
+      "title": "Flower - Wikipedia",
+      "htmlTitle": "\u003cb\u003eFlower\u003c/b\u003e - Wikipedia",
+      "link": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Liliumbulbiferumflowertop.jpg/220px-Liliumbulbiferumflowertop.jpg",
+      "displayLink": "en.wikipedia.org",
+      "snippet": "Flower - Wikipedia",
+      "htmlSnippet": "\u003cb\u003eFlower\u003c/b\u003e - Wikipedia",
+      "mime": "image/jpeg",
+      "image": {
+        "contextLink": "https://en.wikipedia.org/wiki/Flower",
+        "height": 201,
+        "width": 220,
+        "byteSize": 18759,
+        "thumbnailLink": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkwuOBzTbppHVLPbHkFZtQOI2f1CRsPqGQVoriwc3hzOZ8bIFONdCG0lU",
+        "thumbnailHeight": 98,
+        "thumbnailWidth": 107
+      }
+    }
+  ]
+}
